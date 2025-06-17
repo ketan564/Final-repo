@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .risk-bar {
+            transition: width 1s ease-in-out;
+        }
+        .analysis-section {
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+        .indicator-item {
+            transition: all 0.3s ease;
+        }
+        .indicator-item:hover {
+            transform: translateX(5px);
+            color: #667eea;
+        }
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+        }
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading">
+        <div class="loading-spinner">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+    </div>
+
+    <div class="gradient-bg text-white py-8 mb-12">
+        <div class="container mx-auto px-4">
+            <header class="text-center">
+                <h1 class="text-5xl font-bold mb-4">Phishing Detection System</h1>
+                <p class="text-xl opacity-90">Advanced AI-powered analysis for URLs and Emails</p>
+            </header>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <!-- URL Analysis -->
+            <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                <h2 class="text-2xl font-semibold mb-6 text-blue-600 flex items-center">
+                    <i class="fas fa-link mr-3"></i>URL Analysis
+                </h2>
+                <form id="urlForm" class="space-y-4">
+                    <div class="relative">
+                        <input type="url" id="urlInput" placeholder="Enter URL to analyze" 
+                               class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                               required>
+                        <div class="absolute right-3 top-3 text-gray-400">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 mb-2">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Enter a complete URL including http:// or https://
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200 flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i>
+                        Analyze URL
+                    </button>
+                </form>
+                <div id="urlResult" class="mt-6 hidden">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Analysis Result</h3>
+                    <div class="bg-gray-50 p-6 rounded-lg space-y-6">
+                        <!-- Risk Score Section -->
+                        <div class="analysis-section">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="font-medium text-gray-700">Risk Score</span>
+                                <span class="risk-score text-2xl font-bold"></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="risk-bar h-3 rounded-full"></div>
+                            </div>
+                        </div>
+
+                        <!-- Analysis Section -->
+                        <div class="analysis-section">
+                            <h4 class="font-medium text-gray-700 mb-2">Detailed Analysis</h4>
+                            <div class="analysis-text space-y-2 text-gray-600"></div>
+                        </div>
+
+                        <!-- Indicators Section -->
+                        <div class="analysis-section">
+                            <h4 class="font-medium text-gray-700 mb-2">Key Indicators</h4>
+                            <ul class="indicators-list space-y-2"></ul>
+                        </div>
+
+                        <!-- Confidence Section -->
+                        <div class="analysis-section">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium text-gray-700">Confidence Level</span>
+                                <span class="confidence-text text-lg font-semibold"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Analysis -->
+            <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                <h2 class="text-2xl font-semibold mb-6 text-purple-600 flex items-center">
+                    <i class="fas fa-envelope mr-3"></i>Email Analysis
+                </h2>
+                <form id="emailForm" class="space-y-4">
+                    <div class="relative">
+                        <textarea id="emailInput" placeholder="Paste email content here (including headers if possible)" rows="8"
+                                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                  required></textarea>
+                        <div class="absolute right-3 top-3 text-gray-400">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 mb-2">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        For best results, include email headers and full content
+                    </div>
+                    <button type="submit" 
+                            class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 transition duration-200 flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i>
+                        Analyze Email
+                    </button>
+                </form>
+                <div id="emailResult" class="mt-6 hidden">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Analysis Result</h3>
+                    <div class="bg-gray-50 p-6 rounded-lg space-y-6">
+                        <!-- Risk Score Section -->
+                        <div class="analysis-section">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="font-medium text-gray-700">Risk Score</span>
+                                <span class="risk-score text-2xl font-bold"></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="risk-bar h-3 rounded-full"></div>
+                            </div>
+                        </div>
+
+                        <!-- Analysis Section -->
+                        <div class="analysis-section">
+                            <h4 class="font-medium text-gray-700 mb-2">Detailed Analysis</h4>
+                            <div class="analysis-text space-y-2 text-gray-600"></div>
+                        </div>
+
+                        <!-- Indicators Section -->
+                        <div class="analysis-section">
+                            <h4 class="font-medium text-gray-700 mb-2">Key Indicators</h4>
+                            <ul class="indicators-list space-y-2"></ul>
+                        </div>
+
+                        <!-- Confidence Section -->
+                        <div class="analysis-section">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium text-gray-700">Confidence Level</span>
+                                <span class="confidence-text text-lg font-semibold"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function formatAnalysis(text) {
+            // Split the text into sections
+            const sections = text.split('\n\n');
+            let formattedHtml = '';
+            
+            sections.forEach(section => {
+                if (section.trim()) {
+                    if (section.startsWith('Key Findings:')) {
+                        formattedHtml += '<div class="mb-4"><h5 class="font-semibold text-gray-800 mb-2">Key Findings:</h5>';
+                        const findings = section.replace('Key Findings:', '').split('-').filter(f => f.trim());
+                        formattedHtml += '<ul class="list-disc list-inside space-y-1">';
+                        findings.forEach(finding => {
+                            formattedHtml += `<li class="text-gray-600">${finding.trim()}</li>`;
+                        });
+                        formattedHtml += '</ul></div>';
+                    } else if (section.startsWith('Indicators:')) {
+                        formattedHtml += '<div class="mb-4"><h5 class="font-semibold text-gray-800 mb-2">Indicators:</h5>';
+                        const indicators = section.replace('Indicators:', '').split('-').filter(i => i.trim());
+                        formattedHtml += '<ul class="list-disc list-inside space-y-1">';
+                        indicators.forEach(indicator => {
+                            formattedHtml += `<li class="text-gray-600">${indicator.trim()}</li>`;
+                        });
+                        formattedHtml += '</ul></div>';
+                    } else if (section.startsWith('Recommendation:')) {
+                        formattedHtml += '<div class="mt-4 p-3 bg-blue-50 rounded-lg">';
+                        formattedHtml += `<h5 class="font-semibold text-blue-800 mb-1">Recommendation:</h5>`;
+                        formattedHtml += `<p class="text-blue-600">${section.replace('Recommendation:', '').trim()}</p>`;
+                        formattedHtml += '</div>';
+                    }
+                }
+            });
+            
+            return formattedHtml;
+        }
+
+        function updateResultUI(resultDiv, data) {
+            const riskScore = resultDiv.querySelector('.risk-score');
+            const riskBar = resultDiv.querySelector('.risk-bar');
+            const analysisText = resultDiv.querySelector('.analysis-text');
+            const indicatorsList = resultDiv.querySelector('.indicators-list');
+            const confidenceText = resultDiv.querySelector('.confidence-text');
+
+            // Update risk score and bar
+            riskScore.textContent = `${data.risk_score}/100`;
+            riskBar.style.width = '0%'; // Reset width for animation
+            setTimeout(() => {
+                riskBar.style.width = `${data.risk_score}%`;
+                riskBar.className = `risk-bar h-3 rounded-full ${
+                    data.risk_score > 70 ? 'bg-red-600' :
+                    data.risk_score > 40 ? 'bg-yellow-500' :
+                    'bg-green-500'
+                }`;
+            }, 100);
+
+            // Update analysis with formatted content
+            analysisText.innerHTML = formatAnalysis(data.analysis);
+
+            // Update indicators
+            indicatorsList.innerHTML = data.indicators
+                .map(indicator => `
+                    <li class="indicator-item flex items-center text-gray-600">
+                        <i class="fas fa-exclamation-circle text-yellow-500 mr-2"></i>
+                        ${indicator}
+                    </li>
+                `)
+                .join('');
+
+            // Update confidence
+            confidenceText.textContent = `${(data.confidence * 100).toFixed(1)}%`;
+        }
+
+        // URL Analysis
+        document.getElementById('urlForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const urlInput = document.getElementById('urlInput');
+            const url = urlInput.value.trim();
+            const resultDiv = document.getElementById('urlResult');
+            resultDiv.classList.remove('hidden');
+            
+            // Clear previous results
+            resultDiv.querySelector('.analysis-text').innerHTML = '';
+            
+            if (!url) {
+                resultDiv.querySelector('.analysis-text').innerHTML = `
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <p class="text-red-600">Please enter a URL to analyze</p>
+                    </div>
+                `;
+                urlInput.focus();
+                return;
+            }
+            
+            // Validate URL format
+            try {
+                new URL(url);
+            } catch (e) {
+                resultDiv.querySelector('.analysis-text').innerHTML = `
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <p class="text-red-600">Please enter a valid URL (including http:// or https://)</p>
+                    </div>
+                `;
+                urlInput.focus();
+                return;
+            }
+            
+            showLoading();
+            try {
+                const response = await fetch('/api/analyze/url', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to analyze URL');
+                }
+                
+                const data = await response.json();
+                updateResultUI(resultDiv, data);
+            } catch (error) {
+                resultDiv.querySelector('.analysis-text').innerHTML = `
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <p class="text-red-600">Error analyzing URL: ${error.message}</p>
+                        <p class="text-sm text-gray-600 mt-2">Please ensure you've entered a valid URL and try again.</p>
+                    </div>
+                `;
+            } finally {
+                hideLoading();
+            }
+        });
+
+        // Email Analysis
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById('emailInput');
+            const emailContent = emailInput.value.trim();
+            const resultDiv = document.getElementById('emailResult');
+            resultDiv.classList.remove('hidden');
+            
+            // Clear previous results
+            resultDiv.querySelector('.analysis-text').innerHTML = '';
+            
+            if (!emailContent) {
+                resultDiv.querySelector('.analysis-text').innerHTML = `
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <p class="text-red-600">Please enter email content to analyze</p>
+                    </div>
+                `;
+                emailInput.focus();
+                return;
+            }
+            
+            showLoading();
+            try {
+                const response = await fetch('/api/analyze/email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email_content: emailContent })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to analyze email');
+                }
+                
+                const data = await response.json();
+                updateResultUI(resultDiv, data);
+            } catch (error) {
+                resultDiv.querySelector('.analysis-text').innerHTML = `
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <p class="text-red-600">Error analyzing email: ${error.message}</p>
+                        <p class="text-sm text-gray-600 mt-2">Please ensure you've pasted the complete email content and try again.</p>
+                    </div>
+                `;
+            } finally {
+                hideLoading();
+            }
+        });
+    </script>
+</body>
+</html> 
