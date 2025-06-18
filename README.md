@@ -5,7 +5,6 @@ A comprehensive phishing detection system that can analyze URLs, images, and ema
 ## Features
 
 - URL Phishing Detection
-- Image Phishing Detection
 - Email Phishing Detection
 - Modern Web Interface
 - Real-time Analysis
@@ -29,7 +28,7 @@ A comprehensive phishing detection system that can analyze URLs, images, and ema
 ## Usage
 
 1. Open your browser and navigate to `http://localhost:5000`
-2. Choose the type of content you want to analyze (URL, Image, or Email)
+2. Choose the type of content you want to analyze (URL or Email)
 3. Input the content and click "Analyze"
 4. View the detailed analysis results
 
