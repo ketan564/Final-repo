@@ -6,12 +6,18 @@ from typing import Optional, List
 import os
 import re
 from pydantic import validator
+from dotenv import load_dotenv
 
-# Set Gemini API key directly
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyDDomIGM7rf41xk9Jsmx63rGMj85Uh3QKY'
+# Load environment variables
+load_dotenv()
+
+# Get API key from environment variable
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+if not GOOGLE_API_KEY:
+    raise ValueError("GOOGLE_API_KEY environment variable is not set")
 
 # Configure Gemini
-genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
+genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Define PhishingResult model
@@ -244,4 +250,5 @@ def analyze_email():
         return jsonify({"error": "An error occurred while analyzing the email. Please try again."}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port) 
