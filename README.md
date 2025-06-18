@@ -16,11 +16,7 @@ A comprehensive phishing detection system that can analyze URLs, images, and ema
    ```bash
    pip install -r requirements.txt
    ```
-3. Create a `.env` file in the root directory and add your Google API key:
-   ```
-   GOOGLE_API_KEY=your_api_key_here
-   ```
-4. Run the application:
+3. Run the application:
    ```bash
    python app.py
    ```
