@@ -480,15 +480,17 @@
         }
         
         .theme-toggle .sun-icon {
-            color: #f59e0b;
+            color: #f97316;
             font-size: 14px;
             z-index: 1;
+            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
         }
         
         .theme-toggle .moon-icon {
-            color: #6366f1;
+            color: #c4b5fd;
             font-size: 14px;
             z-index: 1;
+            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
         }
         
         html.dark .theme-toggle::after {
@@ -498,7 +500,7 @@
 </head>
 <body class="transition-all duration-300" data-mode="light">
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 shadow-md" data-bg="light">
+    <nav class="fixed w-full z-50 transition-all duration-300 shadow-md bg-white dark:bg-gray-800" data-bg="light">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-3">
                 <div class="flex items-center space-x-2">
@@ -580,7 +582,7 @@
                         <div class="flex items-center space-x-4 mb-4">
                             <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
                                 <i class="fas fa-lightbulb text-indigo-600 text-xl animated-icon"></i>
-                            </div>
+            </div>
                             <h3 class="text-xl font-semibold">URL Safety Tips</h3>
                         </div>
                         <ul class="space-y-2">
@@ -709,7 +711,7 @@
                         <div class="text-center mb-4">
                             <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
                                 <i class="fas fa-shield-alt text-blue-600 text-2xl animated-icon"></i>
-                            </div>
+            </div>
                             <h3 class="text-xl font-semibold mt-4">Real-time Protection</h3>
                         </div>
                         <p class="text-center">
@@ -798,7 +800,7 @@
                         <div class="flex items-center space-x-4 mb-4">
                             <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
                                 <i class="fas fa-shield-alt text-indigo-600 text-xl animated-icon"></i>
-                            </div>
+            </div>
                             <h3 class="text-xl font-semibold">Email Security Tips</h3>
                         </div>
                         <ul class="space-y-2">
@@ -1219,7 +1221,7 @@
                         ${sender === 'bot' ? `<div class="bg-gray-100 rounded-lg p-4 max-w-3xl chat-bubble">
                             <p class="chat-text">${text}</p>
                         </div>` : `<div class="bg-indigo-600 text-white rounded-lg p-4 max-w-3xl">
-                            <p>${text}</p>
+                        <p>${text}</p>
                         </div>`}
                     </div>
                     ${sender === 'user' ? `<div class="w-8 h-8 ${iconBg} rounded-full flex items-center justify-center ml-3 flex-shrink-0">
@@ -1423,8 +1425,8 @@
                 html += '<div class="mb-4">';
                 html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Recommendation:</h5>';
                 html += `<p class="text-gray-600 dark:text-gray-300 leading-relaxed">${recommendation}</p>`;
-                html += '</div>';
-            }
+                        html += '</div>';
+                    }
             
             // Confidence level
             html += `<div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4 text-sm text-gray-500 dark:text-gray-400 flex justify-between items-center"><span>Confidence Level</span> <strong class="text-lg">${(confidence * 100).toFixed(0)}%</strong></div>`;
