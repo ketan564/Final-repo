@@ -496,6 +496,95 @@
         html.dark .theme-toggle::after {
             left: 33px;
         }
+
+        /* Responsive Design Enhancements */
+        @media (max-width: 1024px) {
+            .container {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .max-w-4xl {
+                max-width: 90vw;
+            }
+        }
+        @media (max-width: 768px) {
+            nav .flex.items-center.space-x-3 {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .page {
+                padding-top: 5rem !important;
+            }
+            .max-w-4xl {
+                max-width: 98vw;
+            }
+            .card {
+                padding: 1.5rem !important;
+            }
+            .grid-cols-2, .md\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+            .grid-cols-3, .md\:grid-cols-3 {
+                grid-template-columns: 1fr !important;
+            }
+            .grid-cols-1 {
+                grid-template-columns: 1fr !important;
+            }
+            .chat-container {
+                max-height: 400px;
+            }
+            .text-5xl {
+                font-size: 2rem;
+            }
+            .text-2xl, .text-xl {
+                font-size: 1.25rem;
+            }
+        }
+        @media (max-width: 640px) {
+            nav .flex.items-center.space-x-3 {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+            .container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            .card {
+                padding: 1rem !important;
+            }
+            .chat-container {
+                max-height: 250px;
+            }
+            .text-5xl {
+                font-size: 1.5rem;
+            }
+            .text-2xl, .text-xl {
+                font-size: 1rem;
+            }
+            .rounded-xl, .rounded-lg {
+                border-radius: 0.5rem !important;
+            }
+            .w-12, .w-16, .h-12, .h-16 {
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+            }
+            .p-8, .p-6 {
+                padding: 1rem !important;
+            }
+            .py-8, .py-6 {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
+            .px-4 {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+            }
+            .pt-24 {
+                padding-top: 4rem !important;
+            }
+        }
     </style>
 </head>
 <body class="transition-all duration-300" data-mode="light">
