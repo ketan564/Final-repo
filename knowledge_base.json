@@ -1,0 +1,74 @@
+{
+    "phishing_indicators":  [
+                                "Urgency or pressure tactics",
+                                "Poor grammar and spelling",
+                                "Suspicious links or domains",
+                                "Requests for sensitive information",
+                                "Generic greetings",
+                                "Mismatched sender addresses",
+                                "Suspicious attachments",
+                                "Unusual payment requests",
+                                "Threats or consequences",
+                                "Too good to be true offers"
+                            ],
+    "security_tips":  [
+                          "Never click suspicious links",
+                          "Verify sender email addresses",
+                          "Don\u0027t share passwords or personal info via email",
+                          "Use two-factor authentication",
+                          "Keep software updated",
+                          "Check for HTTPS in URLs",
+                          "Be wary of urgent requests",
+                          "Don\u0027t trust unsolicited attachments",
+                          "Use strong, unique passwords",
+                          "Report suspicious emails to IT"
+                      ],
+    "url_analysis_tips":  [
+                              "Check the domain name carefully",
+                              "Look for HTTPS protocol",
+                              "Avoid shortened URLs",
+                              "Check for typos in domain names",
+                              "Verify the website\u0027s SSL certificate",
+                              "Use URL reputation services",
+                              "Check for redirects",
+                              "Look for suspicious subdomains",
+                              "Verify the website\u0027s legitimacy",
+                              "Check for unusual characters in URLs"
+                          ],
+    "email_analysis_tips":  [
+                                "Check sender\u0027s email address",
+                                "Look for urgency in the message",
+                                "Verify the company\u0027s official domain",
+                                "Check for poor grammar",
+                                "Look for suspicious attachments",
+                                "Verify links before clicking",
+                                "Check email headers",
+                                "Look for generic greetings",
+                                "Check for unusual formatting",
+                                "Verify the sender\u0027s identity"
+                            ],
+    "common_phishing_scenarios":  [
+                                      "Bank account verification requests",
+                                      "Password reset notifications",
+                                      "Package delivery updates",
+                                      "Tax refund notifications",
+                                      "Social media account alerts",
+                                      "Job offer scams",
+                                      "Charity donation requests",
+                                      "Investment opportunities",
+                                      "Tech support scams",
+                                      "Government agency notifications"
+                                  ],
+    "red_flags":  [
+                      "Requests for immediate action",
+                      "Threats of account suspension",
+                      "Promises of large sums of money",
+                      "Requests for gift cards",
+                      "Unusual payment methods",
+                      "Requests to bypass security",
+                      "Threats of legal action",
+                      "Requests for remote access",
+                      "Unusual file attachments",
+                      "Requests for personal documents"
+                  ]
+}

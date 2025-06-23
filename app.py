@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import google.generativeai as genai
-from pydantic import BaseModel, HttpUrl
-from typing import Optional, List
+from pydantic import BaseModel, HttpUrl, field_validator
+from typing import Optional, List, Dict
 import os
 import re
-from pydantic import validator
+import json
+from datetime import datetime
 
 # Set Gemini API key directly
 os.environ['GOOGLE_API_KEY'] = 'AIzaSyDDomIGM7rf41xk9Jsmx63rGMj85Uh3QKY'
@@ -14,11 +15,66 @@ os.environ['GOOGLE_API_KEY'] = 'AIzaSyDDomIGM7rf41xk9Jsmx63rGMj85Uh3QKY'
 genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
 model = genai.GenerativeModel("gemini-1.5-flash")
 
+# Local Knowledge Base
+def load_knowledge_base():
+    try:
+        with open('knowledge_base.json', 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        # Fallback knowledge base if file doesn't exist
+        return {
+            "phishing_indicators": [
+                "Urgency or pressure tactics",
+                "Poor grammar and spelling",
+                "Suspicious links or domains",
+                "Requests for sensitive information",
+                "Generic greetings",
+                "Mismatched sender addresses",
+                "Suspicious attachments",
+                "Unusual payment requests",
+                "Threats or consequences",
+                "Too good to be true offers"
+            ],
+            "security_tips": [
+                "Never click suspicious links",
+                "Verify sender email addresses",
+                "Don't share passwords or personal info via email",
+                "Use two-factor authentication",
+                "Keep software updated",
+                "Check for HTTPS in URLs",
+                "Be wary of urgent requests",
+                "Don't trust unsolicited attachments",
+                "Use strong, unique passwords",
+                "Report suspicious emails to IT"
+            ],
+            "url_analysis_tips": [
+                "Check the domain name carefully",
+                "Look for HTTPS protocol",
+                "Avoid shortened URLs",
+                "Check for typos in domain names",
+                "Verify the website's SSL certificate",
+                "Use URL reputation services",
+                "Check for redirects",
+                "Look for suspicious subdomains"
+            ],
+            "email_analysis_tips": [
+                "Check sender's email address",
+                "Look for urgency in the message",
+                "Verify the company's official domain",
+                "Check for poor grammar",
+                "Look for suspicious attachments",
+                "Verify links before clicking",
+                "Check email headers",
+                "Look for generic greetings"
+            ]
+        }
+
+KNOWLEDGE_BASE = load_knowledge_base()
+
 # Define PhishingResult model
 class PhishingResult(BaseModel):
     risk_score: int
     analysis: str
-    indicators: List[str]
     confidence: float
 
 # Create agent with the model
@@ -32,34 +88,6 @@ class Agent:
         if score_match:
             return int(score_match.group(1))
         return 50
-
-    def extract_indicators(self, text: str) -> List[str]:
-        indicators = []
-        indicator_patterns = [
-            r'urgency',
-            r'suspicious',
-            r'grammar',
-            r'spelling',
-            r'domain',
-            r'certificate',
-            r'legitimate',
-            r'branding',
-            r'inconsistencies',
-            r'pressure tactics',
-            r'phishing',
-            r'scam',
-            r'fake',
-            r'fraudulent'
-        ]
-        
-        for pattern in indicator_patterns:
-            if re.search(pattern, text.lower()):
-                sentences = text.split('.')
-                for sentence in sentences:
-                    if pattern in sentence.lower():
-                        indicators.append(sentence.strip())
-        
-        return indicators[:5]
 
     def calculate_confidence(self, text: str) -> float:
         confidence = 0.5  # Base confidence
@@ -111,7 +139,6 @@ class Agent:
         analysis_text = response.text
 
         risk_score = self.extract_risk_score(analysis_text)
-        indicators = self.extract_indicators(analysis_text)
         confidence = self.calculate_confidence(analysis_text)
 
         analysis_text = re.sub(r'risk\s*score:?\s*\d+', '', analysis_text, flags=re.IGNORECASE)
@@ -120,9 +147,54 @@ class Agent:
         return PhishingResult(
             risk_score=risk_score,
             analysis=analysis_text,
-            indicators=indicators,
             confidence=confidence
         )
+
+    def chat_response(self, message: str) -> str:
+        """Generate a concise, website-relevant chat response using Gemini"""
+        # Get relevant context
+        context = self._get_relevant_context(message.lower())
+        
+        # Create focused, web-relevant prompt
+        enhanced_prompt = f"""
+        You are a web security assistant. Provide concise, practical advice for online users.
+
+        CONTEXT: {context}
+
+        USER: {message}
+
+        Respond with:
+        - Brief, actionable advice (2-3 sentences max)
+        - Focus on web browsing, email, and online safety
+        - Use simple language
+        - If they ask about analysis tools, guide them to use our URL/Email analysis pages
+        - Keep responses under 100 words
+        """
+        
+        try:
+            response = self.model.generate_content(enhanced_prompt)
+            return response.text.strip()
+        except Exception as e:
+            return "I'm having trouble right now. Please try our analysis tools directly."
+
+    def _get_relevant_context(self, message: str) -> str:
+        """Get concise, web-relevant context"""
+        context_parts = []
+        
+        # Web-focused keywords
+        if any(word in message for word in ['url', 'link', 'website', 'browse']):
+            context_parts.append("URL SAFETY: Check domain, look for HTTPS, avoid shortened links")
+        
+        if any(word in message for word in ['email', 'mail', 'inbox']):
+            context_parts.append("EMAIL SAFETY: Verify sender, check for urgency, don't click suspicious links")
+        
+        if any(word in message for word in ['password', 'login', 'account']):
+            context_parts.append("ACCOUNT SAFETY: Use 2FA, strong passwords, never share via email")
+        
+        if any(word in message for word in ['safe', 'protect', 'secure']):
+            context_parts.append("GENERAL: Keep software updated, use HTTPS, be wary of urgent requests")
+        
+        return " | ".join(context_parts) if context_parts else "Web security best practices"
 
 agent = Agent(output_type=PhishingResult, model=model)
 
@@ -133,7 +205,8 @@ CORS(app)
 class URLRequest(BaseModel):
     url: HttpUrl
 
-    @validator('url')
+    @field_validator('url')
+    @classmethod
     def validate_url(cls, v):
         if not v or len(str(v).strip()) == 0:
             raise ValueError('URL cannot be empty')
@@ -142,10 +215,21 @@ class URLRequest(BaseModel):
 class EmailRequest(BaseModel):
     email_content: str
 
-    @validator('email_content')
+    @field_validator('email_content')
+    @classmethod
     def validate_email_content(cls, v):
         if not v or len(v.strip()) == 0:
             raise ValueError('Email content cannot be empty')
+        return v.strip()
+
+class ChatRequest(BaseModel):
+    message: str
+
+    @field_validator('message')
+    @classmethod
+    def validate_message(cls, v):
+        if not v or len(v.strip()) == 0:
+            raise ValueError('Message cannot be empty')
         return v.strip()
 
 def analyze_with_gemini(prompt: str) -> PhishingResult:
@@ -155,9 +239,56 @@ def analyze_with_gemini(prompt: str) -> PhishingResult:
         print(f"Error in Gemini analysis: {str(e)}")
         raise
 
+def classify_risk(risk_score: int) -> str:
+    """Classify risk score into Safe, Suspicious, or Dangerous"""
+    if risk_score > 70:
+        return "Dangerous"
+    elif risk_score > 40:
+        return "Suspicious"
+    else:
+        return "Safe"
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    try:
+        if not request.json or 'message' not in request.json:
+            return jsonify({"error": "Message is required"}), 400
+            
+        data = ChatRequest(**request.json)
+        message_lower = data.message.lower()
+
+        # Keywords that trigger a redirect to the URL analysis page
+        url_keywords = ['analyze url', 'check a url', 'scan a url']
+        if any(keyword in message_lower for keyword in url_keywords):
+            return jsonify({
+                "response": "Of course! Let's get that URL analyzed. I'm taking you to the URL Analysis page now.",
+                "redirect": "home"
+            })
+
+        # Keywords that trigger a redirect to the email analysis page
+        email_keywords = ['analyze email', 'check an email', 'scan an email']
+        if any(keyword in message_lower for keyword in email_keywords):
+            return jsonify({
+                "response": "You got it. I'm redirecting you to the Email Analysis page so you can paste in the content.",
+                "redirect": "email"
+            })
+        
+        # If no redirect, generate a standard chat response
+        response = agent.chat_response(data.message)
+        
+        return jsonify({
+            "response": response,
+            "redirect": None
+        })
+    except ValueError as ve:
+        return jsonify({"error": str(ve)}), 400
+    except Exception as e:
+        print(f"Error in chat: {str(e)}")
+        return jsonify({"error": "An error occurred while processing your message. Please try again."}), 500
 
 @app.route('/api/analyze/url', methods=['POST'])
 def analyze_url():
@@ -167,29 +298,30 @@ def analyze_url():
             
         data = URLRequest(**request.json)
         prompt = f"""
-        Analyze this URL for phishing: {data.url}
+        Analyze this URL for web security threats: {data.url}
 
-        Provide a concise analysis in this exact format:
+        Provide a concise analysis in this format:
         Risk Score: [0-100]
         
         Key Findings:
-        - [List 3-4 most important findings]
+        - [2-3 most important findings]
         
         Indicators:
-        - [List specific phishing indicators found]
+        - [specific threats found]
         
         Recommendation:
-        [One sentence recommendation]
+        [One sentence advice]
 
-        Keep the analysis brief and focused on critical security aspects.
+        Focus on: domain legitimacy, HTTPS, suspicious patterns, redirects.
+        Keep analysis brief and practical for web users.
         """
         
         result = analyze_with_gemini(prompt)
         return jsonify({
             "analysis": result.analysis,
             "risk_score": result.risk_score,
-            "indicators": result.indicators,
-            "confidence": result.confidence
+            "confidence": result.confidence,
+            "classification": classify_risk(result.risk_score)
         })
     except ValueError as ve:
         return jsonify({"error": str(ve)}), 400
@@ -205,37 +337,30 @@ def analyze_email():
             
         data = EmailRequest(**request.json)
         prompt = f"""
-        Analyze this email for phishing: {data.email_content}
+        Analyze this email for web security threats: {data.email_content}
 
-        Provide a concise analysis in this exact format:
+        Provide a concise analysis in this format:
         Risk Score: [0-100]
         
         Key Findings:
-        - [List 3-4 most important findings]
+        - [2-3 most important findings]
         
         Indicators:
-        - [List specific phishing indicators found]
+        - [specific threats found]
         
         Recommendation:
-        [One sentence recommendation]
+        [One sentence advice]
 
-        Focus on:
-        1. Sender information and email address legitimacy
-        2. Urgency or pressure tactics in the content
-        3. Suspicious links or attachments
-        4. Grammar and spelling errors
-        5. Request for sensitive information
-        6. Email header analysis
-        7. Domain and email address mismatches
-        8. Generic greetings or poor personalization
+        Focus on: sender legitimacy, urgency tactics, suspicious links, grammar errors.
+        Keep analysis brief and practical for web users.
         """
         
         result = analyze_with_gemini(prompt)
         return jsonify({
             "analysis": result.analysis,
             "risk_score": result.risk_score,
-            "indicators": result.indicators,
-            "confidence": result.confidence
+            "confidence": result.confidence,
+            "classification": classify_risk(result.risk_score)
         })
     except ValueError as ve:
         return jsonify({"error": str(ve)}), 400
@@ -243,5 +368,10 @@ def analyze_email():
         print(f"Error in email analysis: {str(e)}")
         return jsonify({"error": "An error occurred while analyzing the email. Please try again."}), 500
 
+@app.route('/api/knowledge-base', methods=['GET'])
+def get_knowledge_base():
+    """Endpoint to get knowledge base information"""
+    return jsonify(KNOWLEDGE_BASE)
+
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True, port=3000) 
