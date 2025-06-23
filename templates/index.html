@@ -1,87 +1,511 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PhishGuard Pro - Web Security Assistant</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
+        /* Enable Tailwind dark mode */
+        .dark {
+            color-scheme: dark;
+        }
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --primary-color: #4f46e5;
+            --secondary-color: #7c3aed;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f3f4f6;
+            --card-bg: #ffffff;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --transition-slow: 0.5s ease-in-out;
+            --transition-normal: 0.3s ease-in-out;
+            --transition-fast: 0.15s ease-in-out;
+        }
+        
+        html.dark {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --text-primary: #f9fafb;
+            --text-secondary: #e5e7eb;
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --card-bg: #1f2937;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+        }
+        
+        /* Dark mode specific overrides */
+        html.dark body {
+            background-color: #111827;
+            color: #f9fafb;
+        }
+        
+        html.dark .bg-white {
+            background-color: #1f2937 !important;
+        }
+        
+        html.dark .text-gray-800 {
+            color: #f9fafb !important;
+        }
+        
+        html.dark .text-gray-600, 
+        html.dark .text-gray-500 {
+            color: #e5e7eb !important;
+        }
+        
+        html.dark .border-gray-200 {
+            border-color: #374151 !important;
+        }
+        
+        html.dark input, 
+        html.dark textarea {
+            background-color: #374151 !important;
+            color: #f9fafb !important;
+            border-color: #4b5563 !important;
+        }
+        
+        html.dark .bg-gray-100 {
+            background-color: #374151 !important;
+        }
+        
+        html.dark .text-indigo-600 {
+            color: #a5b4fc !important;
+        }
+        
+        html.dark .bg-indigo-100 {
+            background-color: #312e81 !important;
+        }
+        
+        html.dark .bg-red-100 {
+            background-color: #7f1d1d !important;
+        }
+        
+        html.dark .bg-green-100 {
+            background-color: #064e3b !important;
+        }
+        
+        html.dark .bg-blue-100 {
+            background-color: #1e3a8a !important;
+        }
+        
+        html.dark .bg-yellow-100 {
+            background-color: #78350f !important;
+        }
+        
+        html.dark .bg-purple-100 {
+            background-color: #4c1d95 !important;
+        }
+        
+        html.dark .bg-gray-200 {
+            background-color: #4b5563 !important;
+        }
+        
+        /* Fix for email analysis page */
+        html.dark label,
+        html.dark h1,
+        html.dark h2,
+        html.dark h3,
+        html.dark h4,
+        html.dark h5,
+        html.dark h6,
+        html.dark .font-medium,
+        html.dark .font-semibold,
+        html.dark .font-bold {
+            color: #f9fafb !important;
+        }
+        
+        /* Fix for AI assistant chat */
+        html.dark .message .bg-gray-100,
+        html.dark .chat-bubble {
+            background-color: #374151 !important;
+        }
+        
+        html.dark .message .text-gray-800,
+        html.dark .chat-text {
+            color: #f9fafb !important;
+        }
+        
+        html.dark .message .text-gray-700,
+        html.dark .chat-list,
+        html.dark .chat-list li {
+            color: #e5e7eb !important;
+        }
+        
+        html.dark .message p {
+            color: #f9fafb !important;
+        }
+        
+        html.dark .message li {
+            color: #e5e7eb !important;
+        }
+        
+        /* Fix for all text in dark mode */
+        html.dark p, 
+        html.dark span:not(.text-white), 
+        html.dark div:not(.text-white):not(.bg-indigo-600):not(.gradient-bg) {
+            color: #f9fafb;
+        }
+        
+        html.dark ul li span {
+            color: #e5e7eb !important;
+        }
+        
+        /* Fix for chat buttons in dark mode */
+        html.dark .bg-green-100 {
+            background-color: rgba(6, 78, 59, 0.8) !important;
+        }
+        
+        html.dark .bg-purple-100 {
+            background-color: rgba(76, 29, 149, 0.8) !important;
+        }
+        
+        html.dark .bg-yellow-100 {
+            background-color: rgba(120, 53, 15, 0.8) !important;
+        }
+        
+        html.dark .bg-blue-100 {
+            background-color: rgba(30, 58, 138, 0.8) !important;
+        }
+        
+        html.dark .text-green-700 {
+            color: #a7f3d0 !important;
+        }
+        
+        html.dark .text-purple-700 {
+            color: #ddd6fe !important;
+        }
+        
+        html.dark .text-yellow-700 {
+            color: #fef3c7 !important;
+        }
+        
+        html.dark .text-blue-700 {
+            color: #bfdbfe !important;
+        }
+        
+        html.dark button:hover .text-green-700,
+        html.dark button:hover .text-purple-700,
+        html.dark button:hover .text-yellow-700,
+        html.dark button:hover .text-blue-700 {
+            color: white !important;
+        }
+        
+        html.dark .bg-green-200 {
+            background-color: rgba(6, 78, 59, 1) !important;
+        }
+        
+        html.dark .bg-purple-200 {
+            background-color: rgba(76, 29, 149, 1) !important;
+        }
+        
+        html.dark .bg-yellow-200 {
+            background-color: rgba(120, 53, 15, 1) !important;
+        }
+        
+        html.dark .bg-blue-200 {
+            background-color: rgba(30, 58, 138, 1) !important;
+        }
+        
         .gradient-bg {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: var(--primary-gradient);
         }
+        
         body {
-            background-color: #f3f4f6; /* bg-gray-100 */
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+            scroll-behavior: smooth;
         }
+        
         .chat-container {
             height: calc(100vh - 80px);
             max-height: 600px;
         }
+        
         .message {
-            animation: fadeIn 0.3s ease-in;
+            animation: fadeInUp 0.5s ease-in-out;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         .typing-indicator {
             display: none;
         }
+        
         .typing-indicator.show {
             display: flex;
         }
+        
         .typing-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: #9ca3af;
+            background-color: var(--text-secondary);
             animation: typing 1.4s infinite ease-in-out;
         }
+        
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
         @keyframes typing {
             0%, 80%, 100% { transform: scale(0); }
             40% { transform: scale(1); }
         }
+        
         .page {
             display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity var(--transition-normal), transform var(--transition-normal);
         }
+        
         .page.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.5s ease-in-out;
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         .nav-link {
-            transition: all 0.2s ease-in-out;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
         }
+        
         .nav-link:hover {
-            background-color: #eef2ff; /* bg-indigo-50 */
-            color: #4f46e5;
+            background-color: var(--bg-secondary);
+            color: var(--primary-color);
+            transform: translateY(-2px);
         }
+        
         .nav-link.active {
-            background-color: #4f46e5;
+            background-color: var(--primary-color);
             color: white;
             font-weight: 600;
         }
-        .btn-primary {
-            background: linear-gradient(to right, #4f46e5, #7c3aed);
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 15px 0 rgba(79, 70, 229, 0.3);
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: all var(--transition-normal);
+            transform: translateX(-50%);
         }
+        
+        .nav-link:hover::after {
+            width: 80%;
+        }
+        
+        .nav-link.active::after {
+            width: 0;
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            transition: all var(--transition-normal);
+            box-shadow: 0 4px 15px 0 rgba(79, 70, 229, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
         .btn-primary:hover {
-            transform: translateY(-1px);
+            transform: translateY(-3px);
             box-shadow: 0 7px 20px 0 rgba(79, 70, 229, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-primary:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-normal);
+            border-radius: 1rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        input, textarea {
+            transition: all var(--transition-fast);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border-color: var(--text-secondary);
+        }
+        
+        input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        /* Animated icons */
+        .animated-icon {
+            transition: all var(--transition-normal);
+        }
+        
+        .animated-icon:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        /* Pulse animation for alerts */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Floating animation */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Slide animations */
+        .slide-in-left {
+            animation: slideInLeft 0.5s forwards;
+        }
+        
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.5s forwards;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+        
+        /* Dark mode toggle */
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px;
+        }
+        
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            top: 2px;
+            left: 3px;
+            background: var(--primary-color);
+            transition: all var(--transition-normal);
+        }
+        
+        .theme-toggle .sun-icon {
+            color: #f59e0b;
+            font-size: 14px;
+            z-index: 1;
+        }
+        
+        .theme-toggle .moon-icon {
+            color: #6366f1;
+            font-size: 14px;
+            z-index: 1;
+        }
+        
+        html.dark .theme-toggle::after {
+            left: 33px;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="transition-all duration-300" data-mode="light">
     <!-- Navigation -->
-    <nav class="bg-white shadow-md fixed w-full z-50">
+    <nav class="fixed w-full z-50 transition-all duration-300 shadow-md" data-bg="light">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-3">
                 <div class="flex items-center space-x-2">
-                    <i class="fas fa-shield-alt text-3xl text-indigo-600"></i>
-                    <span class="text-2xl font-bold text-gray-800">PhishGuard Pro</span>
+                    <i class="fas fa-shield-alt text-3xl text-indigo-600 animated-icon"></i>
+                    <span class="text-2xl font-bold">PhishGuard Pro</span>
                 </div>
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-3">
                     <button onclick="showPage('home')" class="nav-link active px-4 py-2 rounded-lg flex items-center space-x-2">
                         <i class="fas fa-link"></i><span>URL Analysis</span>
                     </button>
@@ -94,6 +518,10 @@
                     <button onclick="showPage('about')" class="nav-link px-4 py-2 rounded-lg flex items-center space-x-2">
                         <i class="fas fa-info-circle"></i><span>About</span>
                     </button>
+                    <div class="theme-toggle ml-4" onclick="toggleDarkMode()">
+                        <i class="fas fa-sun sun-icon"></i>
+                        <i class="fas fa-moon moon-icon"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,16 +531,16 @@
     <div id="home" class="page active pt-24">
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-10">
-                    <h1 class="text-5xl font-extrabold text-gray-800 mb-2">URL Analysis</h1>
+                <div class="text-center mb-10 animate__animated animate__fadeIn">
+                    <h1 class="text-5xl font-extrabold mb-2">URL Analysis</h1>
                     <p class="text-lg text-gray-500">Check any URL for potential phishing threats</p>
                 </div>
                 
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="card p-8 animate__animated animate__fadeInUp animate__delay-1s" data-bg="light">
                     <form id="urlForm" class="space-y-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-link mr-2"></i>Enter URL to Analyze
+                            <label class="block text-sm font-medium mb-2">
+                                <i class="fas fa-link mr-2 animated-icon"></i>Enter URL to Analyze
                             </label>
                             <input type="url" id="urlInput" placeholder="https://example.com" 
                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
@@ -124,9 +552,9 @@
                         </button>
                     </form>
                     
-                    <div id="urlResult" class="mt-8 hidden">
-                        <h3 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">Analysis Results</h3>
-                        <div class="bg-white rounded-lg pt-4 space-y-6">
+                    <div id="urlResult" class="mt-8 hidden animate__animated animate__fadeIn">
+                        <h3 class="text-2xl font-bold mb-6 border-b pb-3">Analysis Results</h3>
+                        <div class="rounded-lg pt-4 space-y-6">
                             <!-- Classification -->
                             <div class="text-center">
                                 <div id="urlClassification" class="inline-block px-8 py-3 rounded-full text-white font-bold text-xl">
@@ -135,7 +563,7 @@
                             </div>
                             
                             <div class="flex items-center justify-between">
-                                <span class="font-medium text-gray-600">Risk Score</span>
+                                <span class="font-medium">Risk Score</span>
                                 <span id="urlRiskScore" class="text-2xl font-bold"></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-4">
@@ -145,6 +573,55 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Quick Tips Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+                    <div class="card p-6 rounded-xl shadow-lg animate__animated animate__fadeInLeft animate__delay-2s" data-bg="light">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-lightbulb text-indigo-600 text-xl animated-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold">URL Safety Tips</h3>
+                        </div>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Check for HTTPS in the URL (secure connection)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Verify domain spelling (watch for typos like "amaz0n.com")</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Avoid clicking on shortened URLs (bit.ly, tinyurl, etc.)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card p-6 rounded-xl shadow-lg animate__animated animate__fadeInRight animate__delay-2s" data-bg="light">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-red-600 text-xl animated-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold">Warning Signs</h3>
+                        </div>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                                <span>Suspicious domain names (e.g., paypal-secure.otherdomain.com)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                                <span>URLs with excessive numbers or special characters</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                                <span>HTTP instead of HTTPS for sites requiring login credentials</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -152,18 +629,18 @@
     <!-- AI Assistant Page -->
     <div id="assistant" class="page pt-24">
         <div class="container mx-auto px-4 py-8">
-            <div class="text-center mb-10">
-                <h1 class="text-5xl font-extrabold text-gray-800 mb-2">AI Security Assistant</h1>
+            <div class="text-center mb-10 animate__animated animate__fadeIn">
+                <h1 class="text-5xl font-extrabold mb-2">AI Security Assistant</h1>
                 <p class="text-lg text-gray-500">Ask me anything about phishing detection and web security</p>
             </div>
             
             <!-- Chat Interface -->
             <div class="max-w-4xl mx-auto">
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="card overflow-hidden animate__animated animate__fadeInUp animate__delay-1s" data-bg="light">
                     <div class="gradient-bg text-white p-6">
                         <div class="flex items-center">
-                            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-robot text-xl"></i>
+                            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4 float">
+                                <i class="fas fa-robot text-xl animated-icon"></i>
                             </div>
                             <div>
                                 <h2 class="text-xl font-semibold">AI Security Assistant</h2>
@@ -180,16 +657,16 @@
                                         <i class="fas fa-robot text-indigo-600 text-sm"></i>
                                     </div>
                                     <div class="bg-gray-100 rounded-lg p-4 max-w-3xl">
-                                        <p class="text-gray-800">
+                                        <p class="chat-text">
                                             👋 Hi! I'm your web security assistant. I can help you:
                                         </p>
-                                        <ul class="mt-2 space-y-1 text-gray-700">
+                                        <ul class="mt-2 space-y-1 chat-list">
                                             <li>• Check URLs for threats</li>
                                             <li>• Analyze suspicious emails</li>
                                             <li>• Get security tips</li>
                                             <li>• Learn about online safety</li>
                                         </ul>
-                                        <p class="mt-3 text-gray-800">
+                                        <p class="mt-3 chat-text">
                                             Ask me anything about web security or use the tools above for detailed analysis.
                                         </p>
                                     </div>
@@ -197,7 +674,7 @@
                             </div>
                         </div>
                         
-                        <div class="p-6 border-t border-gray-200">
+                        <div class="p-6 border-t">
                             <div class="flex space-x-3">
                                 <input type="text" id="chatInput" placeholder="Ask me about phishing detection..." 
                                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
@@ -225,6 +702,45 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Feature Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                    <div class="card p-6 rounded-xl shadow-lg animate__animated animate__fadeInUp animate__delay-2s" data-bg="light">
+                        <div class="text-center mb-4">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                                <i class="fas fa-shield-alt text-blue-600 text-2xl animated-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mt-4">Real-time Protection</h3>
+                        </div>
+                        <p class="text-center">
+                            Get instant analysis of suspicious links and emails before you interact with them.
+                        </p>
+                    </div>
+
+                    <div class="card p-6 rounded-xl shadow-lg animate__animated animate__fadeInUp animate__delay-2s" data-bg="light">
+                        <div class="text-center mb-4">
+                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto">
+                                <i class="fas fa-brain text-purple-600 text-2xl animated-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mt-4">AI-Powered Analysis</h3>
+                        </div>
+                        <p class="text-center">
+                            Advanced machine learning models detect even the most sophisticated phishing attempts.
+                        </p>
+                    </div>
+
+                    <div class="card p-6 rounded-xl shadow-lg animate__animated animate__fadeInUp animate__delay-2s" data-bg="light">
+                        <div class="text-center mb-4">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                                <i class="fas fa-user-shield text-green-600 text-2xl animated-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mt-4">Privacy Focused</h3>
+                        </div>
+                        <p class="text-center">
+                            Your data is protected with enterprise-grade encryption and never stored on our servers.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -233,16 +749,16 @@
     <div id="email" class="page pt-24">
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-10">
-                    <h1 class="text-5xl font-extrabold text-gray-800 mb-2">Email Analysis</h1>
+                <div class="text-center mb-10 animate__animated animate__fadeIn">
+                    <h1 class="text-5xl font-extrabold mb-2">Email Analysis</h1>
                     <p class="text-lg text-gray-500">Analyze email content for phishing indicators</p>
                 </div>
                 
-                <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="card p-8 animate__animated animate__fadeInUp animate__delay-1s" data-bg="light">
                     <form id="emailForm" class="space-y-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-envelope mr-2"></i>Email Content
+                            <label class="block text-sm font-medium mb-2">
+                                <i class="fas fa-envelope mr-2 animated-icon"></i>Email Content
                             </label>
                             <textarea id="emailInput" placeholder="Paste the email content here (including headers if possible)" 
                                       rows="10" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
@@ -254,9 +770,9 @@
                         </button>
                     </form>
                     
-                    <div id="emailResult" class="mt-8 hidden">
-                        <h3 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">Analysis Results</h3>
-                        <div class="bg-white rounded-lg pt-4 space-y-6">
+                    <div id="emailResult" class="mt-8 hidden animate__animated animate__fadeIn">
+                        <h3 class="text-2xl font-bold mb-6 border-b pb-3">Analysis Results</h3>
+                        <div class="rounded-lg pt-4 space-y-6">
                             <!-- Classification -->
                             <div class="text-center">
                                 <div id="emailClassification" class="inline-block px-8 py-3 rounded-full text-white font-bold text-xl">
@@ -265,7 +781,7 @@
                             </div>
                             
                             <div class="flex items-center justify-between">
-                                <span class="font-medium text-gray-600">Risk Score</span>
+                                <span class="font-medium">Risk Score</span>
                                 <span id="emailRiskScore" class="text-2xl font-bold"></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-4">
@@ -273,6 +789,55 @@
                             </div>
                             <div id="emailAnalysis" class="space-y-4 pt-4"></div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Email Security Tips -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+                    <div class="card p-6 rounded-xl shadow-lg animate__animated animate__fadeInLeft animate__delay-2s" data-bg="light">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-indigo-600 text-xl animated-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold">Email Security Tips</h3>
+                        </div>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Verify the sender's email address carefully</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Be suspicious of unexpected attachments</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Hover over links before clicking to see the actual URL</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card p-6 rounded-xl shadow-lg animate__animated animate__fadeInRight animate__delay-2s" data-bg="light">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-red-600 text-xl animated-icon"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold">Warning Signs</h3>
+                        </div>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                                <span>Urgent requests or threatening language</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                                <span>Poor grammar, spelling, or formatting</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times-circle text-red-500 mt-1 mr-2"></i>
+                                <span>Requests for sensitive information or credentials</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -283,30 +848,30 @@
     <div id="about" class="page pt-24">
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <h1 class="text-5xl font-extrabold text-gray-800 mb-2">About PhishGuard Pro</h1>
-                    <p class="text-lg text-gray-500">Advanced AI-powered phishing detection system</p>
+                <div class="text-center mb-12 animate__animated animate__fadeIn">
+                    <h1 class="text-5xl font-extrabold text-gray-800 dark:text-white mb-2">About PhishGuard Pro</h1>
+                    <p class="text-lg text-gray-500 dark:text-gray-300">Advanced AI-powered phishing detection system</p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                    <div class="bg-white rounded-xl p-8 shadow-lg">
+                    <div class="card bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg animate__animated animate__fadeInLeft animate__delay-1s">
                         <div class="text-center mb-6">
-                            <i class="fas fa-shield-alt text-4xl text-indigo-600 mb-4"></i>
-                            <h3 class="text-xl font-semibold text-gray-800">Security First</h3>
+                            <i class="fas fa-shield-alt text-4xl text-indigo-600 dark:text-indigo-400 mb-4 animated-icon"></i>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Security First</h3>
                         </div>
-                        <p class="text-gray-600 leading-relaxed">
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                             Built with security in mind, our system uses state-of-the-art AI models to detect 
                             even the most sophisticated phishing attempts. We analyze multiple indicators including 
                             domain reputation, content patterns, and technical signatures.
                         </p>
                     </div>
                     
-                    <div class="bg-white rounded-xl p-8 shadow-lg">
+                    <div class="card bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg animate__animated animate__fadeInRight animate__delay-1s">
                         <div class="text-center mb-6">
-                            <i class="fas fa-user-shield text-4xl text-purple-600 mb-4"></i>
-                            <h3 class="text-xl font-semibold text-gray-800">Privacy Protected</h3>
+                            <i class="fas fa-user-shield text-4xl text-purple-600 dark:text-purple-400 mb-4 animated-icon"></i>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Privacy Protected</h3>
                         </div>
-                        <p class="text-gray-600 leading-relaxed">
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                             Your data is protected with enterprise-grade encryption. We never store or share 
                             your personal information. All analysis is performed in real-time and results are 
                             not retained on our servers.
@@ -314,57 +879,57 @@
                     </div>
                 </div>
                 
-                <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">How It Works</h3>
+                <div class="card bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg mb-8 animate__animated animate__fadeInUp animate__delay-2s">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6 text-center">How It Works</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="text-center">
-                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-upload text-blue-600 text-xl"></i>
+                            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 float">
+                                <i class="fas fa-upload text-blue-600 dark:text-blue-400 text-xl animated-icon"></i>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">1. Input</h4>
-                            <p class="text-gray-600 text-sm">Enter a URL or paste email content for analysis</p>
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">1. Input</h4>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm">Enter a URL or paste email content for analysis</p>
                         </div>
                         <div class="text-center">
-                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-brain text-purple-600 text-xl"></i>
+                            <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4 float">
+                                <i class="fas fa-brain text-purple-600 dark:text-purple-400 text-xl animated-icon"></i>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">2. AI Analysis</h4>
-                            <p class="text-gray-600 text-sm">Our AI analyzes multiple security indicators</p>
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">2. AI Analysis</h4>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm">Our AI analyzes multiple security indicators</p>
                         </div>
                         <div class="text-center">
-                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-chart-bar text-green-600 text-xl"></i>
+                            <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4 float">
+                                <i class="fas fa-chart-bar text-green-600 dark:text-green-400 text-xl animated-icon"></i>
                             </div>
-                            <h4 class="font-semibold text-gray-800 mb-2">3. Results</h4>
-                            <p class="text-gray-600 text-sm">Get detailed risk assessment and recommendations</p>
+                            <h4 class="font-semibold text-gray-800 dark:text-white mb-2">3. Results</h4>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm">Get detailed risk assessment and recommendations</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-8 text-white text-center">
+                <div class="gradient-bg rounded-xl p-8 text-white text-center animate__animated animate__pulse animate__slow animate__infinite">
                     <h3 class="text-2xl font-semibold mb-4">Ready to Get Started?</h3>
                     <p class="mb-6 opacity-90">Protect yourself from phishing attacks with our advanced AI detection system</p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button onclick="showPage('home')" class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        <button onclick="showPage('home')" class="bg-white text-indigo-600 dark:bg-gray-800 dark:text-indigo-400 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors transform hover:scale-105 transition-transform">
                             <i class="fas fa-link mr-2"></i>Analyze URL
                         </button>
-                        <button onclick="showPage('email')" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        <button onclick="showPage('email')" class="bg-white text-purple-600 dark:bg-gray-800 dark:text-purple-400 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors transform hover:scale-105 transition-transform">
                             <i class="fas fa-envelope mr-2"></i>Analyze Email
                         </button>
                     </div>
                 </div>
 
                 <!-- Knowledge Base Section -->
-                <div class="bg-white rounded-xl p-8 shadow-lg mt-12">
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Knowledge Base</h3>
-                    <p class="text-gray-600 mb-8 text-center max-w-2xl mx-auto">Our AI assistant uses a comprehensive knowledge base to provide accurate and helpful responses about phishing detection and security.</p>
+                <div class="card bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg mt-12 animate__animated animate__fadeInUp animate__delay-3s">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6 text-center">Knowledge Base</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-8 text-center max-w-2xl mx-auto">Our AI assistant uses a comprehensive knowledge base to provide accurate and helpful responses about phishing detection and security.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Column 1 -->
                         <div class="space-y-8">
-                            <div class="rounded-xl p-6 shadow-lg text-white h-full" style="background: linear-gradient(to right top, #3b82f6, #2563eb);">
+                            <div class="rounded-xl p-6 shadow-lg text-white h-full transform hover:scale-105 transition-transform" style="background: linear-gradient(to right top, #3b82f6, #2563eb);">
                                 <h4 class="font-semibold mb-3 flex items-center text-lg">
-                                    <i class="fas fa-exclamation-triangle mr-3"></i>Phishing Indicators
+                                    <i class="fas fa-exclamation-triangle mr-3 animated-icon"></i>Phishing Indicators
                                 </h4>
                                 <ul class="text-sm text-blue-100 space-y-2" id="phishingIndicators">
                                     <!-- Populated by JavaScript -->
@@ -373,9 +938,9 @@
                         </div>
                         <!-- Column 2 -->
                         <div class="space-y-8">
-                            <div class="rounded-xl p-6 shadow-lg text-white h-full" style="background: linear-gradient(to right top, #22c55e, #16a34a);">
+                            <div class="rounded-xl p-6 shadow-lg text-white h-full transform hover:scale-105 transition-transform" style="background: linear-gradient(to right top, #22c55e, #16a34a);">
                                 <h4 class="font-semibold mb-3 flex items-center text-lg">
-                                    <i class="fas fa-shield-alt mr-3"></i>Security Tips
+                                    <i class="fas fa-shield-alt mr-3 animated-icon"></i>Security Tips
                                 </h4>
                                 <ul class="text-sm text-green-100 space-y-2" id="securityTips">
                                     <!-- Populated by JavaScript -->
@@ -384,9 +949,9 @@
                         </div>
                         <!-- Column 3 -->
                         <div class="space-y-8">
-                            <div class="rounded-xl p-6 shadow-lg text-white h-full" style="background: linear-gradient(to right top, #f97316, #ea580c);">
+                            <div class="rounded-xl p-6 shadow-lg text-white h-full transform hover:scale-105 transition-transform" style="background: linear-gradient(to right top, #f97316, #ea580c);">
                                 <h4 class="font-semibold mb-3 flex items-center text-lg">
-                                    <i class="fas fa-flag mr-3"></i>Red Flags
+                                    <i class="fas fa-flag mr-3 animated-icon"></i>Red Flags
                                 </h4>
                                 <ul class="text-sm text-orange-100 space-y-2" id="redFlags">
                                     <!-- Populated by JavaScript -->
@@ -395,9 +960,9 @@
                         </div>
                         <!-- Column 4 -->
                         <div class="space-y-8">
-                            <div class="rounded-xl p-6 shadow-lg text-white h-full" style="background: linear-gradient(to right top, #8b5cf6, #7c3aed);">
+                            <div class="rounded-xl p-6 shadow-lg text-white h-full transform hover:scale-105 transition-transform" style="background: linear-gradient(to right top, #8b5cf6, #7c3aed);">
                                 <h4 class="font-semibold mb-3 flex items-center text-lg">
-                                    <i class="fas fa-link mr-3"></i>URL Analysis Tips
+                                    <i class="fas fa-link mr-3 animated-icon"></i>URL Analysis Tips
                                 </h4>
                                 <ul class="text-sm text-purple-100 space-y-2" id="urlTips">
                                     <!-- Populated by JavaScript -->
@@ -406,9 +971,9 @@
                         </div>
                         <!-- Column 5 -->
                         <div class="space-y-8">
-                            <div class="rounded-xl p-6 shadow-lg text-white h-full" style="background: linear-gradient(to right top, #64748b, #475569);">
+                            <div class="rounded-xl p-6 shadow-lg text-white h-full transform hover:scale-105 transition-transform" style="background: linear-gradient(to right top, #64748b, #475569);">
                                 <h4 class="font-semibold mb-3 flex items-center text-lg">
-                                    <i class="fas fa-envelope-open-text mr-3"></i>Email Analysis Tips
+                                    <i class="fas fa-envelope-open-text mr-3 animated-icon"></i>Email Analysis Tips
                                 </h4>
                                 <ul class="text-sm text-slate-100 space-y-2" id="emailTips">
                                     <!-- Populated by JavaScript -->
@@ -417,9 +982,9 @@
                         </div>
                         <!-- Column 6 -->
                         <div class="space-y-8">
-                           <div class="rounded-xl p-6 shadow-lg text-white h-full" style="background: linear-gradient(to right top, #ef4444, #dc2626);">
+                           <div class="rounded-xl p-6 shadow-lg text-white h-full transform hover:scale-105 transition-transform" style="background: linear-gradient(to right top, #ef4444, #dc2626);">
                                 <h4 class="font-semibold mb-3 flex items-center text-lg">
-                                    <i class="fas fa-user-secret mr-3"></i>Common Scenarios
+                                    <i class="fas fa-user-secret mr-3 animated-icon"></i>Common Scenarios
                                 </h4>
                                 <ul class="text-sm text-red-100 space-y-2" id="commonScenarios">
                                     <!-- Populated by JavaScript -->
@@ -433,19 +998,109 @@
         </div>
     </div>
 
-    <footer class="text-center py-8">
-        <p class="text-gray-500 text-sm">&copy; 2024 PhishGuard Pro. All Rights Reserved.</p>
+    <footer class="text-center py-8 bg-white dark:bg-gray-800 shadow-md mt-8 transition-all duration-300">
+        <p class="text-gray-500 dark:text-gray-400 text-sm">&copy; 2024 PhishGuard Pro. All Rights Reserved.</p>
     </footer>
 
     <script>
-        // Page navigation
+        // Dark mode toggle
+        function toggleDarkMode() {
+            // Get current mode
+            const html = document.documentElement;
+            const isDark = html.classList.contains('dark');
+            
+            // Toggle dark mode
+            if (isDark) {
+                html.classList.remove('dark');
+                document.body.classList.remove('bg-gray-900');
+                document.body.classList.add('bg-gray-100');
+                
+                // Update all nav elements
+                document.querySelectorAll('nav').forEach(nav => {
+                    nav.classList.remove('bg-gray-800');
+                    nav.classList.add('bg-white');
+                });
+                
+                // Update all cards
+                document.querySelectorAll('.card').forEach(card => {
+                    card.classList.remove('bg-gray-800');
+                    card.classList.add('bg-white');
+                });
+                
+                // Update all inputs
+                document.querySelectorAll('input, textarea').forEach(input => {
+                    input.classList.remove('bg-gray-700', 'border-gray-600', 'text-white');
+                    input.classList.add('border-gray-200');
+                });
+            } else {
+                html.classList.add('dark');
+                document.body.classList.remove('bg-gray-100');
+                document.body.classList.add('bg-gray-900');
+                
+                // Update all nav elements
+                document.querySelectorAll('nav').forEach(nav => {
+                    nav.classList.remove('bg-white');
+                    nav.classList.add('bg-gray-800');
+                });
+                
+                // Update all cards
+                document.querySelectorAll('.card').forEach(card => {
+                    card.classList.remove('bg-white');
+                    card.classList.add('bg-gray-800');
+                });
+                
+                // Update all inputs
+                document.querySelectorAll('input, textarea').forEach(input => {
+                    input.classList.add('bg-gray-700', 'border-gray-600', 'text-white');
+                    input.classList.remove('border-gray-200');
+                });
+            }
+            
+            // Save preference to localStorage
+            localStorage.setItem('darkMode', !isDark);
+        }
+        
+        // Initialize dark mode
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check user preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedPreference = localStorage.getItem('darkMode');
+            const isDark = savedPreference === 'true' || (savedPreference === null && prefersDark);
+            
+            // Apply dark mode if needed
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.body.classList.add('bg-gray-900');
+                document.body.classList.remove('bg-gray-100');
+                
+                // Update all nav elements
+                document.querySelectorAll('nav').forEach(nav => {
+                    nav.classList.remove('bg-white');
+                    nav.classList.add('bg-gray-800');
+                });
+                
+                // Update all cards
+                document.querySelectorAll('.card').forEach(card => {
+                    card.classList.remove('bg-white');
+                    card.classList.add('bg-gray-800');
+                });
+                
+                // Update all inputs
+                document.querySelectorAll('input, textarea').forEach(input => {
+                    input.classList.add('bg-gray-700', 'border-gray-600', 'text-white');
+                    input.classList.remove('border-gray-200');
+                });
+            }
+        });
+
+        // Page navigation with animations
         function showPage(pageId) {
-            // Hide all pages
+            // Hide all pages with fade out
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Show selected page
+            // Show selected page with fade in
             document.getElementById(pageId).classList.add('active');
             
             // Update navigation
@@ -458,6 +1113,12 @@
             if (pageId === 'about') {
                 loadKnowledgeBase();
             }
+
+            // Scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
 
         // Load and display knowledge base
@@ -545,7 +1206,7 @@
             messageDiv.className = 'message ' + sender;
             
             const icon = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
-            const bgColor = sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-800';
+            const bgColor = sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-gray-100 rounded-lg p-4 max-w-3xl chat-bubble';
             const iconBg = sender === 'user' ? 'bg-indigo-100' : 'bg-indigo-100';
             const iconColor = sender === 'user' ? 'text-indigo-600' : 'text-indigo-600';
             
@@ -554,11 +1215,15 @@
                     ${sender === 'bot' ? `<div class="w-8 h-8 ${iconBg} rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                         <i class="${icon} ${iconColor} text-sm"></i>
                     </div>` : ''}
-                    <div class="${bgColor} rounded-lg p-4 max-w-3xl">
-                        <p>${text}</p>
+                    <div class="${sender === 'user' ? bgColor : ''}">
+                        ${sender === 'bot' ? `<div class="bg-gray-100 rounded-lg p-4 max-w-3xl chat-bubble">
+                            <p class="chat-text">${text}</p>
+                        </div>` : `<div class="bg-indigo-600 text-white rounded-lg p-4 max-w-3xl">
+                            <p>${text}</p>
+                        </div>`}
                     </div>
-                    ${sender === 'user' ? `<div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
-                        <i class="fas fa-user text-indigo-600 text-sm"></i>
+                    ${sender === 'user' ? `<div class="w-8 h-8 ${iconBg} rounded-full flex items-center justify-center ml-3 flex-shrink-0">
+                        <i class="${icon} ${iconColor} text-sm"></i>
                     </div>` : ''}
                 </div>
             `;
@@ -577,7 +1242,7 @@
                     <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                         <i class="fas fa-robot text-indigo-600 text-sm"></i>
                     </div>
-                    <div class="bg-gray-100 rounded-lg p-4">
+                    <div class="chat-bubble bg-gray-100 rounded-lg p-4">
                         <div class="flex space-x-1">
                             <div class="typing-dot"></div>
                             <div class="typing-dot"></div>
@@ -639,7 +1304,7 @@
             if (!url) return;
             
             resultDiv.classList.remove('hidden');
-            resultDiv.querySelector('#urlAnalysis').innerHTML = '<p class="text-center text-gray-600">Analyzing...</p>';
+            resultDiv.querySelector('#urlAnalysis').innerHTML = '<p class="text-center text-gray-600 dark:text-gray-400">Analyzing...</p>';
             
             const data = await fetchAnalysis('/api/analyze/url', { url });
             if (data) {
@@ -659,7 +1324,7 @@
             if (!emailContent) return;
             
             resultDiv.classList.remove('hidden');
-            resultDiv.querySelector('#emailAnalysis').innerHTML = '<p class="text-center text-gray-600">Analyzing...</p>';
+            resultDiv.querySelector('#emailAnalysis').innerHTML = '<p class="text-center text-gray-600 dark:text-gray-400">Analyzing...</p>';
             
             const data = await fetchAnalysis('/api/analyze/email', { email_content: emailContent });
             if (data) {
@@ -748,24 +1413,51 @@
             // Remarks section
             if (remarks) {
                 html += '<div class="mb-6">';
-                html += '<h5 class="font-semibold text-gray-800 mb-2">Remarks:</h5>';
-                html += `<p class="text-gray-600 leading-relaxed">${remarks}</p>`;
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Remarks:</h5>';
+                html += `<p class="text-gray-600 dark:text-gray-300 leading-relaxed">${remarks}</p>`;
                 html += '</div>';
             }
 
             // Recommendation section
             if (recommendation) {
                 html += '<div class="mb-4">';
-                html += '<h5 class="font-semibold text-gray-800 mb-2">Recommendation:</h5>';
-                html += `<p class="text-gray-600 leading-relaxed">${recommendation}</p>`;
-                        html += '</div>';
-                    }
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Recommendation:</h5>';
+                html += `<p class="text-gray-600 dark:text-gray-300 leading-relaxed">${recommendation}</p>`;
+                html += '</div>';
+            }
             
             // Confidence level
-            html += `<div class="mt-6 border-t pt-4 text-sm text-gray-500 flex justify-between items-center"><span>Confidence Level</span> <strong class="text-lg">${(confidence * 100).toFixed(0)}%</strong></div>`;
+            html += `<div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4 text-sm text-gray-500 dark:text-gray-400 flex justify-between items-center"><span>Confidence Level</span> <strong class="text-lg">${(confidence * 100).toFixed(0)}%</strong></div>`;
             
             return html;
         }
+
+        // Add animations to elements on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply animations to elements that should animate on page load
+            const animateOnLoad = document.querySelectorAll('.animate-on-load');
+            animateOnLoad.forEach(element => {
+                element.classList.add('animate__animated', 'animate__fadeIn');
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card:not(.animate__animated)').forEach(card => {
+            observer.observe(card);
+        });
     </script>
 </body>
 </html> 
