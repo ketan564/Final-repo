@@ -96,6 +96,14 @@
             background-color: #064e3b !important;
         }
         
+        html.dark .bg-green-50 {
+            background-color: #064e3b !important;
+        }
+        
+        html.dark .bg-green-900 {
+            background-color: #064e3b !important;
+        }
+        
         html.dark .bg-blue-100 {
             background-color: #1e3a8a !important;
         }
@@ -110,6 +118,22 @@
         
         html.dark .bg-gray-200 {
             background-color: #4b5563 !important;
+        }
+        
+        html.dark .bg-blue-50 {
+            background-color: #1e3a8a !important;
+        }
+        
+        html.dark .bg-blue-900 {
+            background-color: #1e3a8a !important;
+        }
+        
+        html.dark .bg-purple-50 {
+            background-color: #4c1d95 !important;
+        }
+        
+        html.dark .bg-purple-900 {
+            background-color: #4c1d95 !important;
         }
         
         /* Fix for email analysis page */
@@ -473,117 +497,921 @@
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            top: 2px;
-            left: 3px;
             background: var(--primary-color);
             transition: all var(--transition-normal);
-        }
-        
-        .theme-toggle .sun-icon {
-            color: #f97316;
-            font-size: 14px;
-            z-index: 1;
-            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
-        }
-        
-        .theme-toggle .moon-icon {
-            color: #c4b5fd;
-            font-size: 14px;
-            z-index: 1;
-            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
+            left: 3px;
         }
         
         html.dark .theme-toggle::after {
-            left: 33px;
+            transform: translateX(30px);
         }
-
-        /* Responsive Design Enhancements */
-        @media (max-width: 1024px) {
+        
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            /* Prevent horizontal overflow */
+            body {
+                overflow-x: hidden !important;
+                width: 100% !important;
+            }
+            
+            html {
+                overflow-x: hidden !important;
+            }
+            
             .container {
-                max-width: 100%;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+                max-width: 100% !important;
+                overflow-x: hidden !important;
+            }
+            
+            /* Fix page content spacing to prevent header overlap */
+            .page {
+                padding-top: 5rem !important; /* Increased from pt-24 (6rem) to 5rem */
+            }
+            
+            /* Ensure all content stays within viewport */
+            * {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Navigation mobile improvements */
+            .nav-desktop {
+                display: none !important;
+            }
+            
+            .nav-mobile {
+                display: flex !important;
+            }
+            
+            /* Mobile navigation container */
+            nav .container {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+                max-width: 100% !important;
+            }
+            
+            /* Mobile logo and title */
+            nav .flex.items-center.space-x-2 {
+                flex-shrink: 0 !important;
+            }
+            
+            nav .text-2xl.font-bold {
+                font-size: 1.25rem !important;
+            }
+            
+            nav .fas.fa-shield-alt {
+                font-size: 1.5rem !important;
+            }
+            
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: var(--bg-primary);
+                z-index: 1000;
+                transition: left 0.3s ease-in-out;
+                overflow-y: auto;
+                overflow-x: hidden !important;
+            }
+            
+            .mobile-menu.active {
+                left: 0;
+            }
+            
+            .mobile-menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .mobile-menu-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            /* Mobile navigation items */
+            .mobile-nav-item {
+                display: block;
+                width: 100%;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid var(--bg-secondary);
+                text-align: left;
+                font-size: 1.1rem;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-nav-item:hover {
+                background: var(--bg-secondary);
+                color: var(--primary-color);
+            }
+            
+            .mobile-nav-item.active {
+                background: var(--primary-color);
+                color: white;
+            }
+            
+            /* Mobile menu header */
+            .mobile-menu-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 1.5rem;
+                border-bottom: 2px solid var(--bg-secondary);
+                background: var(--bg-primary);
+            }
+            
+            /* Hamburger menu */
+            .hamburger {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 48px;
+                height: 48px;
+                background: rgba(99, 102, 241, 0.12); /* subtle indigo background */
+                border-radius: 50%;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                border: 1.5px solid #e0e7ff;
+                cursor: pointer;
+                padding: 0;
+                transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+                position: relative;
+                z-index: 1100;
+            }
+            .hamburger:hover, .hamburger.active {
+                background: rgba(99, 102, 241, 0.22);
+                box-shadow: 0 4px 16px rgba(99,102,241,0.13);
+                border: 1.5px solid #6366f1;
+            }
+            .hamburger span {
+                display: block;
+                width: 26px;
+                height: 3.5px;
+                background: #4f46e5;
+                border-radius: 2px;
+                margin: 3.5px 0;
+                transition: all 0.35s cubic-bezier(.4,2,.6,1);
+            }
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+            /* Center hamburger in nav-mobile */
+            .nav-mobile {
+                align-items: center !important;
+            }
+            
+            /* Mobile content adjustments */
+            .container {
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
-            .max-w-4xl {
-                max-width: 90vw;
+            
+            /* Mobile typography */
+            h1 {
+                font-size: 2.5rem !important;
+                line-height: 1.2 !important;
+                margin-top: 0 !important;
             }
-        }
-        @media (max-width: 768px) {
-            nav .flex.items-center.space-x-3 {
-                flex-wrap: wrap;
-                gap: 0.5rem;
+            
+            h2 {
+                font-size: 2rem !important;
             }
-            .page {
-                padding-top: 5rem !important;
+            
+            h3 {
+                font-size: 1.5rem !important;
             }
-            .max-w-4xl {
-                max-width: 98vw;
-            }
+            
+            /* Mobile card adjustments */
             .card {
                 padding: 1.5rem !important;
+                margin: 0 0.5rem !important;
+                width: calc(100% - 1rem) !important;
+                max-width: 100% !important;
             }
-            .grid-cols-2, .md\:grid-cols-2 {
+            
+            /* Mobile form adjustments */
+            input, textarea {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            /* Mobile button adjustments */
+            .btn-primary {
+                padding: 0.75rem 1.5rem !important;
+                font-size: 1rem !important;
+                width: 100% !important;
+            }
+            
+            /* Mobile grid adjustments */
+            .grid {
                 grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+                width: 100% !important;
             }
-            .grid-cols-3, .md\:grid-cols-3 {
-                grid-template-columns: 1fr !important;
-            }
-            .grid-cols-1 {
-                grid-template-columns: 1fr !important;
-            }
+            
+            /* Mobile chat adjustments */
             .chat-container {
-                max-height: 400px;
+                height: calc(100vh - 200px) !important;
+                width: 100% !important;
             }
-            .text-5xl {
-                font-size: 2rem;
-            }
-            .text-2xl, .text-xl {
-                font-size: 1.25rem;
-            }
-        }
-        @media (max-width: 640px) {
-            nav .flex.items-center.space-x-3 {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.25rem;
-            }
-            .container {
-                padding-left: 0.5rem;
-                padding-right: 0.5rem;
-            }
-            .card {
-                padding: 1rem !important;
-            }
+            
+            /* Enhanced mobile chat improvements */
             .chat-container {
-                max-height: 250px;
+                height: calc(100vh - 120px) !important;
+                max-height: 70vh !important;
+                min-height: 400px !important;
+                border-radius: 0.75rem !important;
+                margin: 0 !important;
             }
-            .text-5xl {
-                font-size: 1.5rem;
+            
+            /* Mobile chat header improvements */
+            .gradient-bg {
+                padding: 1.5rem !important;
+                border-radius: 0.75rem 0.75rem 0 0 !important;
             }
-            .text-2xl, .text-xl {
-                font-size: 1rem;
+            
+            .gradient-bg .flex.items-center {
+                align-items: center !important;
             }
-            .rounded-xl, .rounded-lg {
-                border-radius: 0.5rem !important;
+            
+            .gradient-bg .w-12.h-12 {
+                width: 3rem !important;
+                height: 3rem !important;
+                min-width: 3rem !important;
             }
-            .w-12, .w-16, .h-12, .h-16 {
+            
+            .gradient-bg .text-xl {
+                font-size: 1.25rem !important;
+            }
+            
+            .gradient-bg h2 {
+                font-size: 1.25rem !important;
+                margin-bottom: 0.25rem !important;
+            }
+            
+            .gradient-bg p {
+                font-size: 0.875rem !important;
+                margin: 0 !important;
+            }
+            
+            /* Mobile chat messages area */
+            #chatMessages {
+                padding: 1.5rem !important;
+                max-height: calc(100vh - 280px) !important;
+                overflow-y: auto !important;
+            }
+            
+            /* Mobile message styling */
+            .message {
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .message .flex.items-start {
+                gap: 0.75rem !important;
+            }
+            
+            .message .w-8.h-8 {
                 width: 2.5rem !important;
                 height: 2.5rem !important;
+                min-width: 2.5rem !important;
+                flex-shrink: 0 !important;
             }
-            .p-8, .p-6 {
+            
+            .message .bg-gray-100 {
+                max-width: calc(100% - 3.25rem) !important;
+                margin-right: 0 !important;
+                padding: 1rem !important;
+                border-radius: 1rem !important;
+                font-size: 0.95rem !important;
+                line-height: 1.5 !important;
+            }
+            
+            /* Mobile chat input area */
+            .chat-container .p-6.border-t {
+                padding: 1.5rem !important;
+                background: var(--bg-primary) !important;
+                border-top: 1px solid var(--bg-secondary) !important;
+                border-radius: 0 0 0.75rem 0.75rem !important;
+            }
+            
+            .chat-container .flex.space-x-3 {
+                gap: 0.75rem !important;
+            }
+            
+            /* Mobile chat input field */
+            #chatInput {
+                flex: 1 !important;
+                min-height: 3rem !important;
+                padding: 0.75rem 1rem !important;
+                border-radius: 1.5rem !important;
+                font-size: 1rem !important;
+                border: 2px solid var(--bg-secondary) !important;
+                background: var(--bg-primary) !important;
+                color: var(--text-primary) !important;
+            }
+            
+            #chatInput:focus {
+                border-color: var(--primary-color) !important;
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+                outline: none !important;
+            }
+            
+            /* Mobile send button */
+            .chat-container .btn-primary {
+                width: 3rem !important;
+                height: 3rem !important;
+                min-width: 3rem !important;
+                border-radius: 50% !important;
+                padding: 0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: var(--primary-gradient) !important;
+                border: none !important;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+            }
+            
+            .chat-container .btn-primary:hover {
+                transform: translateY(-2px) !important;
+                box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4) !important;
+            }
+            
+            .chat-container .btn-primary i {
+                font-size: 1.1rem !important;
+            }
+            
+            /* Mobile chat list styling */
+            .chat-list {
+                margin-top: 0.75rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+            
+            .chat-list li {
+                margin-bottom: 0.5rem !important;
+                font-size: 0.9rem !important;
+                line-height: 1.4 !important;
+            }
+            
+            /* Mobile typing indicator */
+            .typing-indicator {
+                padding: 1rem !important;
+                margin: 0.5rem 0 !important;
+            }
+            
+            .typing-dot {
+                width: 8px !important;
+                height: 8px !important;
+            }
+            
+            /* Mobile chat text improvements */
+            .chat-text {
+                font-size: 0.95rem !important;
+                line-height: 1.5 !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
+            /* Mobile chat container card styling */
+            .chat-container .card {
+                margin: 0 !important;
+                padding: 0 !important;
+                border-radius: 0.75rem !important;
+                overflow: hidden !important;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+            }
+            
+            .message .bg-gray-100 {
+                max-width: 100% !important;
+                margin-right: 0 !important;
+            }
+            
+            /* Mobile analysis results */
+            #urlResult, #emailResult {
+                margin-top: 1rem !important;
+                width: 100% !important;
+            }
+            
+            /* Mobile risk score display */
+            #urlRiskScore, #emailRiskScore {
+                font-size: 1.5rem !important;
+            }
+            
+            /* Mobile classification badges */
+            #urlClassification, #emailClassification {
+                font-size: 1rem !important;
+                padding: 0.5rem 1rem !important;
+            }
+            
+            /* Mobile tips section */
+            .tips-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            /* Mobile spacing adjustments */
+            .py-8 {
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+            }
+            
+            .mb-10 {
+                margin-bottom: 2rem !important;
+            }
+            
+            .space-y-6 > * + * {
+                margin-top: 1rem !important;
+            }
+            
+            /* Mobile theme toggle */
+            .theme-toggle {
+                width: 50px;
+                height: 25px;
+            }
+            
+            .theme-toggle::after {
+                width: 18px;
+                height: 18px;
+            }
+            
+            html.dark .theme-toggle::after {
+                transform: translateX(25px);
+            }
+
+            /* Improved Mobile Menu Area */
+            .mobile-menu {
+                background: #fff;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+                padding-top: 2.5rem !important;
+                padding-bottom: 2.5rem !important;
+                min-height: 100vh;
+                display: flex !important;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: stretch;
+            }
+            .mobile-menu-header {
+                padding: 1.5rem 2rem 1.5rem 2rem !important;
+                border-bottom: 2px solid #f3f4f6;
+                background: #f8fafc;
+                margin-bottom: 1.5rem !important;
+            }
+            .mobile-nav-item {
+                display: flex;
+                align-items: center;
+                gap: 1.25rem;
+                width: 100%;
+                padding: 1.25rem 2rem !important;
+                border-bottom: 1px solid #f3f4f6;
+                text-align: left;
+                font-size: 1.15rem !important;
+                font-weight: 600;
+                color: #374151;
+                background: transparent;
+                transition: background 0.2s, color 0.2s;
+            }
+            .mobile-nav-item i {
+                font-size: 1.35rem !important;
+                min-width: 1.35rem;
+            }
+            .mobile-nav-item:last-child {
+                border-bottom: none;
+            }
+            .mobile-nav-item:hover, .mobile-nav-item.active {
+                background: #eef2ff !important;
+                color: #4f46e5 !important;
+            }
+            .mobile-menu-header .text-xl.font-bold {
+                font-size: 1.35rem !important;
+            }
+            .mobile-menu-header .fa-shield-alt {
+                font-size: 2rem !important;
+            }
+
+            /* Dark mode for mobile menu */
+            html.dark .mobile-menu {
+                background: #181f2a !important;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.32) !important;
+            }
+            html.dark .mobile-menu-header {
+                background: #232b3a !important;
+                border-bottom: 2px solid #232b3a !important;
+            }
+            html.dark .mobile-nav-item {
+                color: #e5e7eb !important;
+                border-bottom: 1px solid #232b3a !important;
+            }
+            html.dark .mobile-nav-item i {
+                color: #a5b4fc !important;
+            }
+            html.dark .mobile-nav-item:hover, html.dark .mobile-nav-item.active {
+                background: #232b3a !important;
+                color: #a5b4fc !important;
+            }
+            html.dark .mobile-menu-header .text-xl.font-bold {
+                color: #f9fafb !important;
+            }
+            html.dark .mobile-menu-header .fa-shield-alt {
+                color: #a5b4fc !important;
+            }
+        }
+        
+        /* Tablet responsive adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .nav-desktop {
+                display: flex !important;
+            }
+            
+            .nav-mobile {
+                display: none !important;
+            }
+            
+            .container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+            
+            h1 {
+                font-size: 3.5rem !important;
+            }
+            
+            .card {
+                padding: 2rem !important;
+            }
+        }
+        
+        /* Desktop responsive adjustments */
+        @media (min-width: 1025px) {
+            .nav-desktop {
+                display: flex !important;
+            }
+            
+            .nav-mobile {
+                display: none !important;
+            }
+        }
+        
+        /* Additional mobile improvements */
+        @media (max-width: 768px) {
+            /* Touch-friendly button sizes */
+            button, .btn-primary {
+                min-height: 44px !important; /* iOS recommended touch target size */
+                min-width: 44px !important;
+            }
+            
+            /* Mobile form improvements */
+            input, textarea, select {
+                min-height: 44px !important;
+                padding: 12px 16px !important;
+            }
+            
+            /* Mobile spacing improvements */
+            .space-y-4 > * + * {
+                margin-top: 1rem !important;
+            }
+            
+            .space-y-6 > * + * {
+                margin-top: 1.5rem !important;
+            }
+            
+            /* Mobile text improvements */
+            .text-sm {
+                font-size: 0.875rem !important;
+            }
+            
+            .text-lg {
+                font-size: 1.125rem !important;
+            }
+            
+            /* Mobile card improvements */
+            .card {
+                border-radius: 0.75rem !important;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+            }
+            
+            /* Mobile navigation improvements */
+            .nav-link {
+                padding: 0.75rem 1rem !important;
+                font-size: 0.875rem !important;
+            }
+            
+            /* Mobile chat improvements */
+            .chat-container {
                 padding: 1rem !important;
             }
-            .py-8, .py-6 {
+            
+            .message {
+                margin-bottom: 1rem !important;
+            }
+            
+            /* Mobile analysis improvements */
+            .analysis-result {
+                padding: 1rem !important;
+            }
+            
+            /* Mobile footer improvements */
+            footer {
+                padding: 2rem 1rem !important;
+            }
+            
+            /* Mobile icon improvements */
+            .animated-icon {
+                font-size: 1.25rem !important;
+            }
+            
+            /* Mobile risk bar improvements */
+            .risk-bar {
+                height: 12px !important;
+            }
+            
+            /* Mobile classification improvements */
+            .classification-badge {
+                font-size: 0.875rem !important;
+                padding: 0.5rem 1rem !important;
+            }
+        }
+        
+        /* Landscape mobile improvements */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .mobile-menu {
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .chat-container {
+                height: calc(100vh - 150px) !important;
+            }
+            
+            h1 {
+                font-size: 2rem !important;
+            }
+            
+            .py-8 {
                 padding-top: 1rem !important;
                 padding-bottom: 1rem !important;
             }
-            .px-4 {
+        }
+        
+        /* High DPI mobile improvements */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .animated-icon {
+                transform: translateZ(0);
+            }
+            
+            .card {
+                transform: translateZ(0);
+            }
+        }
+        
+        /* Additional mobile layout fixes */
+        @media (max-width: 768px) {
+            /* Ensure navigation doesn't overlap content */
+            nav {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 50 !important;
+            }
+            
+            /* Ensure proper page spacing */
+            .page {
+                margin-top: 4rem !important;
+                padding-top: 1rem !important;
+                min-height: calc(100vh - 4rem) !important;
+            }
+            
+            /* Fix any remaining horizontal scroll issues */
+            .max-w-4xl {
+                max-width: 100% !important;
                 padding-left: 0.5rem !important;
                 padding-right: 0.5rem !important;
             }
-            .pt-24 {
-                padding-top: 4rem !important;
+            
+            /* Ensure text doesn't overflow */
+            h1, h2, h3, h4, h5, h6, p, span, div {
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
             }
+            
+            /* Fix button and input overflow */
+            button, input, textarea, select {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Ensure cards don't overflow */
+            .card {
+                margin-left: 0.5rem !important;
+                margin-right: 0.5rem !important;
+                width: calc(100% - 1rem) !important;
+            }
+            
+            /* Fix grid overflow */
+            .grid {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+            }
+            
+            /* Ensure proper container behavior */
+            .container {
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+        
+        /* Fix for confidence assessment box in dark mode */
+        html.dark .confidence-assessment-box {
+            background-color: #374151 !important;
+            border: 1px solid #4b5563 !important;
+        }
+        
+        html.dark .confidence-assessment-text {
+            color: #e5e7eb !important;
+        }
+        
+        html.dark .confidence-assessment-title {
+            color: #f9fafb !important;
+        }
+        
+        /* Fix for risk labels in dark mode - maintain original colors */
+        html.dark #urlRiskLabels span.text-green-600,
+        html.dark #emailRiskLabels span.text-green-600 {
+            color: #059669 !important;
+        }
+        
+        html.dark #urlRiskLabels span.text-yellow-600,
+        html.dark #emailRiskLabels span.text-yellow-600 {
+            color: #d97706 !important;
+        }
+        
+        html.dark #urlRiskLabels span.text-red-600,
+        html.dark #emailRiskLabels span.text-red-600 {
+            color: #dc2626 !important;
+        }
+        
+        /* Mobile chat container card styling */
+        .chat-container .card {
+            margin: 0 !important;
+            padding: 0 !important;
+            border-radius: 0.75rem !important;
+            overflow: hidden !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Mobile AI assistant page improvements */
+        #assistant .container {
+            padding: 1rem !important;
+        }
+        
+        #assistant .max-w-4xl {
+            max-width: 100% !important;
+            margin: 0 !important;
+        }
+        
+        #assistant .text-center.mb-10 {
+            margin-bottom: 1.5rem !important;
+            padding: 0 0.5rem !important;
+        }
+        
+        #assistant h1 {
+            font-size: 2rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+        
+        #assistant p {
+            font-size: 1rem !important;
+            margin: 0 !important;
+        }
+        
+        /* Mobile chat welcome message improvements */
+        .message.bot .bg-gray-100 {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        
+        html.dark .message.bot .bg-gray-100 {
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%) !important;
+            border: 1px solid #4b5563 !important;
+        }
+        
+        /* Mobile chat scrollbar styling */
+        #chatMessages::-webkit-scrollbar {
+            width: 6px !important;
+        }
+        
+        #chatMessages::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+        
+        #chatMessages::-webkit-scrollbar-thumb {
+            background: var(--primary-color) !important;
+            border-radius: 3px !important;
+        }
+        
+        #chatMessages::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color) !important;
+        }
+        
+        /* Mobile chat animations */
+        .message {
+            animation: slideInUp 0.3s ease-out !important;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile chat input placeholder */
+        #chatInput::placeholder {
+            color: var(--text-secondary) !important;
+            opacity: 0.7 !important;
+        }
+        
+        /* Mobile chat focus states */
+        .chat-container:focus-within {
+            box-shadow: 0 0 0 2px var(--primary-color) !important;
+        }
+        
+        html.dark #emailRiskLabels span.text-red-600 {
+            color: #dc2626 !important;
+        }
+        
+        html.dark #emailRiskLabels span.text-red-600 {
+            color: #dc2626 !important;
+        }
+        
+        html.dark #emailRiskLabels span.text-red-600 {
+            color: #dc2626 !important;
+        }
+        
+        /* Hide mobile navigation and hamburger menu on desktop */
+        @media (min-width: 769px) {
+            .nav-mobile,
+            .mobile-menu,
+            .mobile-menu-overlay {
+                display: none !important;
+            }
+            /* Add top padding to .page to prevent navbar overlap */
+            .page {
+                padding-top: 5.5rem !important;
+            }
+        }
+        /* Show mobile navigation and hamburger menu only on mobile */
+        @media (max-width: 768px) {
+            .nav-mobile,
+            .mobile-menu,
+            .mobile-menu-overlay {
+                display: flex !important;
+            }
+        }
+
+        .theme-toggle .sun-icon {
+            color: #fbbf24 !important; /* bright yellow */
+            font-size: 1.25rem !important;
+            filter: drop-shadow(0 0 2px #fff8dc);
+            z-index: 1;
+        }
+        .theme-toggle .moon-icon {
+            color: #6366f1 !important; /* indigo */
+            font-size: 1.25rem !important;
+            filter: drop-shadow(0 0 2px #e0e7ff);
+            z-index: 1;
+        }
+        html.dark .theme-toggle .sun-icon {
+            color: #fde68a !important; /* lighter yellow for dark bg */
+            filter: drop-shadow(0 0 3px #fbbf24);
+        }
+        html.dark .theme-toggle .moon-icon {
+            color: #a5b4fc !important; /* lighter indigo for dark bg */
+            filter: drop-shadow(0 0 3px #6366f1);
         }
     </style>
 </head>
@@ -596,7 +1424,9 @@
                     <i class="fas fa-shield-alt text-3xl text-indigo-600 animated-icon"></i>
                     <span class="text-2xl font-bold">PhishGuard Pro</span>
                 </div>
-                <div class="flex items-center space-x-3">
+                
+                <!-- Desktop Navigation -->
+                <div class="nav-desktop flex items-center space-x-3">
                     <button onclick="showPage('home')" class="nav-link active px-4 py-2 rounded-lg flex items-center space-x-2">
                         <i class="fas fa-link"></i><span>URL Analysis</span>
                     </button>
@@ -614,12 +1444,61 @@
                         <i class="fas fa-moon moon-icon"></i>
                     </div>
                 </div>
+                
+                <!-- Mobile Navigation -->
+                <div class="nav-mobile flex items-center space-x-3">
+                    <div class="theme-toggle" onclick="toggleDarkMode()">
+                        <i class="fas fa-sun sun-icon"></i>
+                        <i class="fas fa-moon moon-icon"></i>
+                    </div>
+                    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-shield-alt text-2xl text-indigo-600"></i>
+                <span class="text-xl font-bold">PhishGuard Pro</span>
+            </div>
+            <button class="hamburger active" aria-label="Close menu" aria-expanded="true" aria-controls="mobileMenu" onclick="closeMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <div class="py-4">
+            <button onclick="showPage('home'); closeMobileMenu();" class="mobile-nav-item active flex items-center space-x-3">
+                <i class="fas fa-link"></i>
+                <span>URL Analysis</span>
+            </button>
+            <button onclick="showPage('email'); closeMobileMenu();" class="mobile-nav-item flex items-center space-x-3">
+                <i class="fas fa-envelope"></i>
+                <span>Email Analysis</span>
+            </button>
+            <button onclick="showPage('assistant'); closeMobileMenu();" class="mobile-nav-item flex items-center space-x-3">
+                <i class="fas fa-robot"></i>
+                <span>AI Assistant</span>
+            </button>
+            <button onclick="showPage('about'); closeMobileMenu();" class="mobile-nav-item flex items-center space-x-3">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </button>
+        </div>
+    </div>
+
     <!-- Home Page (URL Analysis) -->
-    <div id="home" class="page active pt-24">
+    <div id="home" class="page active">
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-10 animate__animated animate__fadeIn">
@@ -659,6 +1538,11 @@
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-4">
                                 <div id="urlRiskBar" class="h-4 rounded-full transition-all duration-1000"></div>
+                            </div>
+                            <div id="urlRiskLabels" class="flex justify-between mt-1 text-xs text-gray-500">
+                                <span class="text-green-600">Low</span>
+                                <span class="text-yellow-600">Medium</span>
+                                <span class="text-red-600">High</span>
                             </div>
                             <div id="urlAnalysis" class="space-y-4 pt-4"></div>
                         </div>
@@ -718,7 +1602,7 @@
     </div>
 
     <!-- AI Assistant Page -->
-    <div id="assistant" class="page pt-24">
+    <div id="assistant" class="page">
         <div class="container mx-auto px-4 py-8">
             <div class="text-center mb-10 animate__animated animate__fadeIn">
                 <h1 class="text-5xl font-extrabold mb-2">AI Security Assistant</h1>
@@ -837,7 +1721,7 @@
     </div>
 
     <!-- Email Analysis Page -->
-    <div id="email" class="page pt-24">
+    <div id="email" class="page">
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-10 animate__animated animate__fadeIn">
@@ -877,6 +1761,11 @@
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-4">
                                 <div id="emailRiskBar" class="h-4 rounded-full transition-all duration-1000"></div>
+                            </div>
+                            <div id="emailRiskLabels" class="flex justify-between mt-1 text-xs text-gray-500">
+                                <span class="text-green-600">Low</span>
+                                <span class="text-yellow-600">Medium</span>
+                                <span class="text-red-600">High</span>
                             </div>
                             <div id="emailAnalysis" class="space-y-4 pt-4"></div>
                         </div>
@@ -936,7 +1825,7 @@
     </div>
 
     <!-- About Page -->
-    <div id="about" class="page pt-24">
+    <div id="about" class="page">
         <div class="container mx-auto px-4 py-8">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-12 animate__animated animate__fadeIn">
@@ -1184,6 +2073,54 @@
             }
         });
 
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+            const hamburger = document.querySelector('.hamburger');
+            
+            mobileMenu.classList.toggle('active');
+            mobileOverlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+            const hamburger = document.querySelector('.hamburger');
+            
+            mobileMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            hamburger.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close mobile menu on window resize (if switching to desktop)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+
         // Page navigation with animations
         function showPage(pageId) {
             // Hide all pages with fade out
@@ -1194,11 +2131,23 @@
             // Show selected page with fade in
             document.getElementById(pageId).classList.add('active');
             
-            // Update navigation
+            // Update desktop navigation
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
-            document.querySelector(`button[onclick="showPage('${pageId}')"]`).classList.add('active');
+            const desktopNavButton = document.querySelector(`.nav-desktop button[onclick="showPage('${pageId}')"]`);
+            if (desktopNavButton) {
+                desktopNavButton.classList.add('active');
+            }
+            
+            // Update mobile navigation
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            const mobileNavButton = document.querySelector(`.mobile-nav-item[onclick*="showPage('${pageId}')"]`);
+            if (mobileNavButton) {
+                mobileNavButton.classList.add('active');
+            }
             
             // Load knowledge base if showing about page
             if (pageId === 'about') {
@@ -1397,12 +2346,149 @@
             resultDiv.classList.remove('hidden');
             resultDiv.querySelector('#urlAnalysis').innerHTML = '<p class="text-center text-gray-600 dark:text-gray-400">Analyzing...</p>';
             
-            const data = await fetchAnalysis('/api/analyze/url', { url });
-            if (data) {
-                updateUrlResult(data);
-            } else {
-                resultDiv.querySelector('#urlAnalysis').innerHTML = `<p class="text-center text-red-500">Analysis failed. Please try again.</p>`;
-        }
+            try {
+                // First try the advanced analysis endpoint
+                const advancedData = await fetchAnalysis('/api/advanced-analysis', { type: 'url', content: url });
+                if (advancedData) {
+                    updateUrlResult(advancedData);
+                    
+                    // Display additional domain information if available
+                    if (advancedData.additional_context && advancedData.additional_context.domain_info) {
+                        const domainInfo = advancedData.additional_context.domain_info;
+                        
+                        // Determine reputation color based on score
+                        const getReputationColor = (score) => {
+                            if (score > 70) return 'text-green-600 dark:text-green-400';
+                            if (score > 40) return 'text-yellow-600 dark:text-yellow-400';
+                            return 'text-red-600 dark:text-red-400';
+                        };
+                        
+                        const domainInfoHTML = `
+                            <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg relative">
+                                <div class="absolute top-2 right-2">
+                                    <span class="bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                        Domain Intel
+                                    </span>
+                                </div>
+                                <h5 class="font-semibold text-gray-800 dark:text-white mb-4">Domain Information:</h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Domain</div>
+                                        <div class="font-medium text-gray-800 dark:text-white">${domainInfo.domain}</div>
+                                    </div>
+                                    
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Reputation Score</div>
+                                        <div class="font-medium ${getReputationColor(domainInfo.reputation_score)}">
+                                            <span class="text-lg font-bold">${domainInfo.reputation_score}</span>/100
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Last Seen Malicious</div>
+                                        <div class="font-medium text-gray-800 dark:text-white">${domainInfo.last_seen_malicious}</div>
+                                    </div>
+                                    
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Known For</div>
+                                        <div class="font-medium text-gray-800 dark:text-white">${domainInfo.known_for}</div>
+                                    </div>
+                                    
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm col-span-1 md:col-span-2">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Registration Date</div>
+                                        <div class="font-medium text-gray-800 dark:text-white">${domainInfo.registration_date}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        document.getElementById('urlAnalysis').insertAdjacentHTML('beforeend', domainInfoHTML);
+                    }
+                    
+                    // Add pattern matching results if available
+                    if (advancedData.additional_context && advancedData.additional_context.pattern_match) {
+                        const patternMatch = advancedData.additional_context.pattern_match;
+                        const matchedPatterns = patternMatch.matched_patterns || [];
+                        
+                        // Determine risk level color
+                        const getRiskLevelColor = (level) => {
+                            switch(level) {
+                                case 'High': return 'text-red-600 dark:text-red-400';
+                                case 'Medium': return 'text-yellow-600 dark:text-yellow-400';
+                                case 'Low': return 'text-green-600 dark:text-green-400';
+                                default: return 'text-gray-600 dark:text-gray-400';
+                            }
+                        };
+                        
+                        const patternMatchHTML = `
+                            <div class="mt-6 p-4 bg-purple-50 dark:bg-purple-900 rounded-lg relative">
+                                <div class="absolute top-2 right-2">
+                                    <span class="bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-200 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                        Pattern Analysis
+                                    </span>
+                                </div>
+                                <h5 class="font-semibold text-gray-800 dark:text-white mb-4">Pattern Matching Results:</h5>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Match Percentage</div>
+                                        <div class="font-medium ${getRiskLevelColor(patternMatch.risk_level)}">
+                                            <span class="text-lg font-bold">${patternMatch.match_percentage.toFixed(1)}%</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Risk Level</div>
+                                        <div class="font-medium ${getRiskLevelColor(patternMatch.risk_level)}">
+                                            <span class="text-lg font-bold">${patternMatch.risk_level}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                ${matchedPatterns.length > 0 ? `
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-2">Matched Patterns</div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                            ${matchedPatterns.map(pattern => `
+                                                <div class="flex items-center">
+                                                    <div class="text-red-500 dark:text-red-400 mr-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="text-gray-700 dark:text-gray-300 text-sm">${pattern}</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-2">Matched Patterns</div>
+                                        <div class="text-gray-700 dark:text-gray-300 text-sm">No known phishing patterns detected.</div>
+                                    </div>
+                                `}
+                            </div>
+                        `;
+                        document.getElementById('urlAnalysis').insertAdjacentHTML('beforeend', patternMatchHTML);
+                    }
+                } else {
+                    // Fall back to standard analysis
+                    const data = await fetchAnalysis('/api/analyze/url', { url });
+                    if (data) {
+                        updateUrlResult(data);
+                    } else {
+                        resultDiv.querySelector('#urlAnalysis').innerHTML = `<p class="text-center text-red-500">Analysis failed. Please try again.</p>`;
+                    }
+                }
+            } catch (error) {
+                console.error('Analysis error:', error);
+                // Try standard analysis as fallback
+                const data = await fetchAnalysis('/api/analyze/url', { url });
+                if (data) {
+                    updateUrlResult(data);
+                } else {
+                    resultDiv.querySelector('#urlAnalysis').innerHTML = `<p class="text-center text-red-500">Analysis failed. Please try again.</p>`;
+                }
+            }
         });
 
         // Email Analysis
@@ -1417,11 +2503,130 @@
             resultDiv.classList.remove('hidden');
             resultDiv.querySelector('#emailAnalysis').innerHTML = '<p class="text-center text-gray-600 dark:text-gray-400">Analyzing...</p>';
             
-            const data = await fetchAnalysis('/api/analyze/email', { email_content: emailContent });
-            if (data) {
-                updateEmailResult(data);
-            } else {
-                resultDiv.querySelector('#emailAnalysis').innerHTML = `<p class="text-center text-red-500">Analysis failed. Please try again.</p>`;
+            try {
+                // First try the advanced analysis endpoint
+                const advancedData = await fetchAnalysis('/api/advanced-analysis', { type: 'email', content: emailContent });
+                if (advancedData) {
+                    updateEmailResult(advancedData);
+                    
+                    // Add domain information if available
+                    if (advancedData.additional_context && advancedData.additional_context.domain_info) {
+                        // Domain information display code...
+                    }
+                    
+                    // Add security tips if available
+                    if (advancedData.additional_context && advancedData.additional_context.tips && advancedData.additional_context.tips.length > 0) {
+                        const tipsHTML = `
+                            <div class="mt-6 p-4 bg-green-50 dark:bg-green-900 rounded-lg relative">
+                                <div class="absolute top-2 right-2">
+                                    <span class="bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                        Security Tips
+                                    </span>
+                                </div>
+                                <h5 class="font-semibold text-gray-800 dark:text-white mb-4">Email Security Best Practices:</h5>
+                                <div class="grid grid-cols-1 gap-3">
+                                    ${advancedData.additional_context.tips.map(tip => `
+                                        <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                            <div class="flex items-start">
+                                                <div class="text-green-500 dark:text-green-400 mr-3 flex-shrink-0 mt-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="text-gray-700 dark:text-gray-300">${tip}</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        document.getElementById('emailAnalysis').insertAdjacentHTML('beforeend', tipsHTML);
+                    }
+                    
+                    // Add pattern matching results if available
+                    if (advancedData.additional_context && advancedData.additional_context.pattern_match) {
+                        const patternMatch = advancedData.additional_context.pattern_match;
+                        const matchedPatterns = patternMatch.matched_patterns || [];
+                        
+                        // Determine risk level color
+                        const getRiskLevelColor = (level) => {
+                            switch(level) {
+                                case 'High': return 'text-red-600 dark:text-red-400';
+                                case 'Medium': return 'text-yellow-600 dark:text-yellow-400';
+                                case 'Low': return 'text-green-600 dark:text-green-400';
+                                default: return 'text-gray-600 dark:text-gray-400';
+                            }
+                        };
+                        
+                        const patternMatchHTML = `
+                            <div class="mt-6 p-4 bg-purple-50 dark:bg-purple-900 rounded-lg relative">
+                                <div class="absolute top-2 right-2">
+                                    <span class="bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-200 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                        Pattern Analysis
+                                    </span>
+                                </div>
+                                <h5 class="font-semibold text-gray-800 dark:text-white mb-4">Pattern Matching Results:</h5>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Match Percentage</div>
+                                        <div class="font-medium ${getRiskLevelColor(patternMatch.risk_level)}">
+                                            <span class="text-lg font-bold">${patternMatch.match_percentage.toFixed(1)}%</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-1">Risk Level</div>
+                                        <div class="font-medium ${getRiskLevelColor(patternMatch.risk_level)}">
+                                            <span class="text-lg font-bold">${patternMatch.risk_level}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                ${matchedPatterns.length > 0 ? `
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-2">Matched Patterns</div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                            ${matchedPatterns.map(pattern => `
+                                                <div class="flex items-center">
+                                                    <div class="text-red-500 dark:text-red-400 mr-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="text-gray-700 dark:text-gray-300 text-sm">${pattern}</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+                                        <div class="text-gray-500 dark:text-gray-400 text-xs uppercase font-medium mb-2">Matched Patterns</div>
+                                        <div class="text-gray-700 dark:text-gray-300 text-sm">No known phishing patterns detected.</div>
+                                    </div>
+                                `}
+                            </div>
+                        `;
+                        document.getElementById('emailAnalysis').insertAdjacentHTML('beforeend', patternMatchHTML);
+                    }
+                } else {
+                    // Fall back to standard analysis
+                    const data = await fetchAnalysis('/api/analyze/email', { email_content: emailContent });
+                    if (data) {
+                        updateEmailResult(data);
+                    } else {
+                        resultDiv.querySelector('#emailAnalysis').innerHTML = `<p class="text-center text-red-500">Analysis failed. Please try again.</p>`;
+                    }
+                }
+            } catch (error) {
+                console.error('Analysis error:', error);
+                // Try standard analysis as fallback
+                const data = await fetchAnalysis('/api/analyze/email', { email_content: emailContent });
+                if (data) {
+                    updateEmailResult(data);
+                } else {
+                    resultDiv.querySelector('#emailAnalysis').innerHTML = `<p class="text-center text-red-500">Analysis failed. Please try again.</p>`;
+                }
             }
         });
         
@@ -1444,16 +2649,141 @@
             document.getElementById('urlRiskScore').textContent = `${data.risk_score}/100`;
             updateRiskBar('urlRiskBar', data.risk_score);
             updateClassification('urlClassification', data.classification);
-            document.getElementById('urlAnalysis').innerHTML = formatAnalysis(data.analysis, data.confidence);
+            
+            // Build the analysis HTML
+            let analysisHTML = '';
+            
+            // If we have structured data from the enhanced model
+            if (data.key_findings || data.technical_indicators || data.recommendations) {
+                // Use the structured data for a more detailed display
+                analysisHTML = formatStructuredAnalysis(data);
+            } else {
+                // Fall back to the standard analysis format
+                analysisHTML = formatAnalysis(data.analysis, data.confidence);
             }
+            
+            document.getElementById('urlAnalysis').innerHTML = analysisHTML;
+            
+            // Add confidence explanation if available
+            if (data.confidence_explanation) {
+                const confidenceHTML = `
+                    <div class="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg confidence-assessment-box border border-gray-200 dark:border-gray-600">
+                        <h5 class="font-semibold text-gray-800 dark:text-white mb-2 confidence-assessment-title">Confidence Assessment:</h5>
+                        <p class="text-gray-600 dark:text-gray-300 confidence-assessment-text">${data.confidence_explanation}</p>
+                    </div>
+                `;
+                document.getElementById('urlAnalysis').insertAdjacentHTML('beforeend', confidenceHTML);
+            }
+            
+            // Add a badge if this is from the advanced analysis
+            if (data.key_findings || data.technical_indicators) {
+                const badgeHTML = `
+                    <div class="absolute top-2 right-2">
+                        <span class="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                            Advanced Analysis
+                        </span>
+                    </div>
+                `;
+                document.getElementById('urlResult').insertAdjacentHTML('afterbegin', badgeHTML);
+            }
+        }
 
         function updateEmailResult(data) {
             document.getElementById('emailRiskScore').textContent = `${data.risk_score}/100`;
             updateRiskBar('emailRiskBar', data.risk_score);
             updateClassification('emailClassification', data.classification);
-            document.getElementById('emailAnalysis').innerHTML = formatAnalysis(data.analysis, data.confidence);
-        }
             
+            // Build the analysis HTML
+            let analysisHTML = '';
+            
+            // If we have structured data from the enhanced model
+            if (data.key_findings || data.technical_indicators || data.recommendations) {
+                // Use the structured data for a more detailed display
+                analysisHTML = formatStructuredAnalysis(data);
+            } else {
+                // Fall back to the standard analysis format
+                analysisHTML = formatAnalysis(data.analysis, data.confidence);
+            }
+            
+            document.getElementById('emailAnalysis').innerHTML = analysisHTML;
+            
+            // Add confidence explanation if available
+            if (data.confidence_explanation) {
+                const confidenceHTML = `
+                    <div class="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg confidence-assessment-box border border-gray-200 dark:border-gray-600">
+                        <h5 class="font-semibold text-gray-800 dark:text-white mb-2 confidence-assessment-title">Confidence Assessment:</h5>
+                        <p class="text-gray-600 dark:text-gray-300 confidence-assessment-text">${data.confidence_explanation}</p>
+                    </div>
+                `;
+                document.getElementById('emailAnalysis').insertAdjacentHTML('beforeend', confidenceHTML);
+            }
+            
+            // Add a badge if this is from the advanced analysis
+            if (data.key_findings || data.technical_indicators) {
+                const badgeHTML = `
+                    <div class="absolute top-2 right-2">
+                        <span class="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                            Advanced Analysis
+                        </span>
+                    </div>
+                `;
+                document.getElementById('emailResult').insertAdjacentHTML('afterbegin', badgeHTML);
+            }
+        }
+        
+        function formatStructuredAnalysis(data) {
+            let html = '';
+            
+            // Key Findings section
+            if (data.key_findings && data.key_findings.length > 0) {
+                html += '<div class="mb-6">';
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Key Findings:</h5>';
+                html += '<ul class="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">';
+                data.key_findings.forEach(finding => {
+                    html += `<li>${finding}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            // Technical Indicators section
+            if (data.technical_indicators && data.technical_indicators.length > 0) {
+                html += '<div class="mb-6">';
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Technical Indicators:</h5>';
+                html += '<ul class="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">';
+                data.technical_indicators.forEach(indicator => {
+                    html += `<li>${indicator}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            // Analysis section (if available)
+            if (data.analysis) {
+                html += '<div class="mb-6">';
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Analysis:</h5>';
+                html += `<p class="text-gray-600 dark:text-gray-300 leading-relaxed">${data.analysis}</p>`;
+                html += '</div>';
+            }
+            
+            // Recommendations section
+            if (data.recommendations && data.recommendations.length > 0) {
+                html += '<div class="mb-6">';
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Recommendations:</h5>';
+                html += '<ul class="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">';
+                data.recommendations.forEach(rec => {
+                    html += `<li>${rec}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            // Confidence level
+            html += `<div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4 text-sm text-gray-500 dark:text-gray-400 flex justify-between items-center"><span>Confidence Level</span> <strong class="text-lg text-gray-800 dark:text-white">${(data.confidence * 100).toFixed(0)}%</strong></div>`;
+            
+            return html;
+        }
+
         function updateRiskBar(elementId, riskScore) {
             const riskBar = document.getElementById(elementId);
             riskBar.style.width = '0%';
@@ -1464,6 +2794,28 @@
                     riskScore > 40 ? 'bg-yellow-400' :
                     'bg-green-500'
                 }`;
+                
+                // Clear any existing markers
+                const parentDiv = riskBar.parentElement;
+                const existingMarkers = parentDiv.parentElement.querySelectorAll('.risk-marker');
+                existingMarkers.forEach(marker => marker.remove());
+                
+                // Add visual indicator of where the score falls
+                const indicatorDiv = document.createElement('div');
+                indicatorDiv.className = 'risk-marker relative h-0';
+                
+                // Create the indicator triangle
+                const triangle = document.createElement('div');
+                triangle.className = `absolute top-[-12px] transform -translate-x-1/2 ${
+                    riskScore > 70 ? 'text-red-500' :
+                    riskScore > 40 ? 'text-yellow-400' :
+                    'text-green-500'
+                }`;
+                triangle.style.left = `${riskScore}%`;
+                triangle.innerHTML = '▼';
+                
+                indicatorDiv.appendChild(triangle);
+                parentDiv.appendChild(indicatorDiv);
             }, 100);
         }
 
@@ -1486,39 +2838,100 @@
         function formatAnalysis(analysis, confidence) {
             let remarks = '';
             let recommendation = '';
+            let keyFindings = [];
+            let technicalIndicators = [];
+            let recommendations = [];
             
             // Split the main analysis text into sections.
             const sections = analysis.split('\n\n');
             sections.forEach(section => {
                 if (section.startsWith('Recommendation:')) {
                     recommendation = section.replace('Recommendation:', '').trim();
+                } else if (section.startsWith('Key Findings:')) {
+                    // Extract key findings as bullet points
+                    const findingsText = section.replace('Key Findings:', '').trim();
+                    findingsText.split('\n').forEach(item => {
+                        const cleanItem = item.replace(/^-\s*/, '').trim();
+                        if (cleanItem) keyFindings.push(cleanItem);
+                    });
+                } else if (section.startsWith('Indicators:') || section.startsWith('Technical Indicators:')) {
+                    // Extract technical indicators as bullet points
+                    const indicatorsText = section.replace('Indicators:', '').replace('Technical Indicators:', '').trim();
+                    indicatorsText.split('\n').forEach(item => {
+                        const cleanItem = item.replace(/^-\s*/, '').trim();
+                        if (cleanItem) technicalIndicators.push(cleanItem);
+                    });
+                } else if (section.startsWith('Security Recommendations:')) {
+                    // Extract security recommendations as bullet points
+                    const recsText = section.replace('Security Recommendations:', '').trim();
+                    recsText.split('\n').forEach(item => {
+                        const cleanItem = item.replace(/^-\s*/, '').trim();
+                        if (cleanItem) recommendations.push(cleanItem);
+                    });
                 } else {
-                    remarks += section.replace('Key Findings:', '').replace('Indicators:', '').trim() + ' ';
+                    remarks += section.trim() + ' ';
                 }
             });
 
-            // Clean up remarks: remove list markers and multiple spaces.
-            remarks = remarks.replace(/(\r\n|\n|\r)/gm, " ").replace(/-\s*/g, '').replace(/\s+/g, ' ').trim();
+            // If we didn't extract structured data, use the old way
+            if (keyFindings.length === 0 && technicalIndicators.length === 0) {
+                // Clean up remarks: remove list markers and multiple spaces.
+                remarks = remarks.replace(/(\r\n|\n|\r)/gm, " ").replace(/-\s*/g, '').replace(/\s+/g, ' ').trim();
+            }
 
             let html = '';
-            // Remarks section
-            if (remarks) {
+            
+            // Key Findings section
+            if (keyFindings.length > 0) {
                 html += '<div class="mb-6">';
-                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Remarks:</h5>';
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Key Findings:</h5>';
+                html += '<ul class="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">';
+                keyFindings.forEach(finding => {
+                    html += `<li>${finding}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            // Technical Indicators section
+            if (technicalIndicators.length > 0) {
+                html += '<div class="mb-6">';
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Technical Indicators:</h5>';
+                html += '<ul class="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">';
+                technicalIndicators.forEach(indicator => {
+                    html += `<li>${indicator}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            // Remarks section (if we have structured data, this becomes less important)
+            if (remarks && (keyFindings.length === 0 || technicalIndicators.length === 0)) {
+                html += '<div class="mb-6">';
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Analysis:</h5>';
                 html += `<p class="text-gray-600 dark:text-gray-300 leading-relaxed">${remarks}</p>`;
                 html += '</div>';
             }
 
-            // Recommendation section
-            if (recommendation) {
-                html += '<div class="mb-4">';
+            // Recommendations section
+            if (recommendations.length > 0) {
+                html += '<div class="mb-6">';
+                html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Recommendations:</h5>';
+                html += '<ul class="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">';
+                recommendations.forEach(rec => {
+                    html += `<li>${rec}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            } else if (recommendation) {
+                html += '<div class="mb-6">';
                 html += '<h5 class="font-semibold text-gray-800 dark:text-white mb-2">Recommendation:</h5>';
                 html += `<p class="text-gray-600 dark:text-gray-300 leading-relaxed">${recommendation}</p>`;
-                        html += '</div>';
-                    }
+                html += '</div>';
+            }
             
             // Confidence level
-            html += `<div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4 text-sm text-gray-500 dark:text-gray-400 flex justify-between items-center"><span>Confidence Level</span> <strong class="text-lg">${(confidence * 100).toFixed(0)}%</strong></div>`;
+            html += `<div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4 text-sm text-gray-500 dark:text-gray-400 flex justify-between items-center"><span>Confidence Level</span> <strong class="text-lg text-gray-800 dark:text-white">${(confidence * 100).toFixed(0)}%</strong></div>`;
             
             return html;
         }

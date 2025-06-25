@@ -1,6 +1,6 @@
 # PhishGuard Pro - AI-Powered Phishing Detection
 
-An advanced phishing detection system powered by Google's Gemini AI, featuring a chatbot interface and comprehensive knowledge base.
+An advanced phishing detection system powered by Google's Gemini AI and Pydantic AI, featuring a chatbot interface and comprehensive knowledge base.
 
 ## Features
 
@@ -15,6 +15,14 @@ An advanced phishing detection system powered by Google's Gemini AI, featuring a
 - **Email Analysis**: Analyze email content for suspicious indicators
 - **Real-time Results**: Get instant risk assessments and detailed reports
 - **Risk Scoring**: 0-100 risk scores with confidence levels
+- **Advanced Analysis**: Enhanced technical analysis with Pydantic AI
+
+### 🧠 Pydantic AI Integration
+- **Structured Outputs**: Enhanced data validation and parsing
+- **Advanced Agent Framework**: Leverages Pydantic AI's agent capabilities
+- **Domain Reputation Checks**: Simulated domain reputation analysis
+- **Detailed Technical Indicators**: More comprehensive security analysis
+- **Fallback Mechanisms**: Graceful degradation to standard analysis if needed
 
 ### 📚 Knowledge Base
 - **Local Knowledge Base**: Comprehensive security information stored locally
@@ -56,7 +64,7 @@ An advanced phishing detection system powered by Google's Gemini AI, featuring a
    ```
 
 5. **Access the application**
-   - Open your browser and go to `http://localhost:5000`
+   - Open your browser and go to `http://localhost:3000`
 
 ## Usage
 
@@ -77,6 +85,12 @@ An advanced phishing detection system powered by Google's Gemini AI, featuring a
 2. Paste the complete email content (including headers if possible)
 3. Click "Analyze Email" for comprehensive analysis
 4. Review detailed findings and security recommendations
+
+### Advanced Analysis
+1. Use the advanced analysis endpoint for more detailed technical analysis
+2. Get structured output with key findings, technical indicators, and recommendations
+3. Access domain reputation information for URLs
+4. Benefit from Pydantic AI's enhanced validation and structured outputs
 
 ### Knowledge Base
 1. Visit the About page to see the complete knowledge base
@@ -106,13 +120,16 @@ To update the knowledge base:
 - `POST /api/analyze/url` - Analyze URLs for phishing
 - `POST /api/analyze/email` - Analyze emails for phishing
 - `GET /api/knowledge-base` - Get knowledge base data
+- `POST /api/advanced-analysis` - Advanced analysis with Pydantic AI
 
 ## Technology Stack
 
 - **Backend**: Flask (Python)
-- **AI Model**: Google Gemini 1.5 Flash
+- **AI Models**: 
+  - Google Gemini 1.5 Flash
+  - Pydantic AI Agent Framework
 - **Frontend**: HTML, CSS (Tailwind), JavaScript
-- **Validation**: Pydantic
+- **Validation**: Pydantic and Pydantic AI
 - **Knowledge Base**: JSON
 
 ## Security Features
@@ -121,6 +138,7 @@ To update the knowledge base:
 - **Error Handling**: Comprehensive error handling and user feedback
 - **No Data Storage**: Analysis results are not stored on the server
 - **API Key Security**: API keys are handled securely
+- **Structured Data Validation**: Enhanced validation with Pydantic AI
 
 ## Contributing
 
