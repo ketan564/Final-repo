@@ -15,7 +15,7 @@ import threading
 import atexit
 
 # Set Gemini API key directly
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyDGnj_SMhBZzyvDsuFKOoiJeFcGblMR6HU'
+os.environ['GOOGLE_API_KEY'] = 'AIzaSyDPwEN_Ry8NsfjPVWQSV6_MtQOxA0JIoEg'
 
 # Configure Gemini
 genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
