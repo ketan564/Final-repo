@@ -1413,11 +1413,165 @@
             color: #a5b4fc !important; /* lighter indigo for dark bg */
             filter: drop-shadow(0 0 3px #6366f1);
         }
+        /* Loader styles */
+        #splashLoader {
+            position: fixed;
+            z-index: 9999;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s;
+        }
+        #splashLoader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .loader-logo i {
+            font-size: 3rem;
+            color: #fff;
+            animation: pulse 1.5s infinite;
+        }
+        .loader-logo span {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            letter-spacing: 2px;
+        }
+        /* Card and button micro-interactions */
+        .card {
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        .card:hover, .card:focus-within {
+            box-shadow: 0 12px 32px 0 rgba(79,70,229,0.18), 0 4px 8px 0 rgba(124,58,237,0.10);
+            transform: translateY(-3px) scale(1.02);
+        }
+        .btn-primary, button, .mobile-nav-item {
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+        }
+        .btn-primary:active, button:active, .mobile-nav-item:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 8px rgba(79,70,229,0.10);
+        }
+        /* Section divider */
+        .section-divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+            opacity: 0.12;
+            margin: 2.5rem 0 2rem 0;
+            border-radius: 1px;
+        }
+        /* Animated risk icons */
+        .risk-animated {
+            animation: bounce 1.2s infinite alternate;
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+        .skip-to-content { left: 50%; transform: translateX(-50%); top: 0.5rem; transition: top 0.2s; }
+        .skip-to-content:focus { top: 2.5rem; z-index: 100; }
+        #helpBtn { transition: box-shadow 0.2s, transform 0.2s; }
+        #helpBtn:active { transform: scale(0.95); }
+        #helpModal { transition: opacity 0.3s; }
+        #helpModal.show { display: flex !important; opacity: 1; }
+        #helpModal.hide { opacity: 0; pointer-events: none; }
+        #themePalette { min-width: 3rem; }
+        .theme-swatch { outline: none; border-width: 2px; border-style: solid; cursor: pointer; transition: transform 0.15s; }
+        .theme-swatch:focus, .theme-swatch:hover { transform: scale(1.15); border-color: #6366f1; }
+        /* Toast styles */
+        .toast { min-width: 220px; max-width: 320px; padding: 1rem 1.5rem; border-radius: 0.75rem; box-shadow: 0 4px 24px rgba(0,0,0,0.12); font-weight: 500; display: flex; align-items: center; gap: 0.75rem; }
+        .toast-success { background: linear-gradient(90deg, #22d3ee, #4ade80); color: #065f46; }
+        .toast-error { background: linear-gradient(90deg, #f87171, #fbbf24); color: #991b1b; }
+        .toast-info { background: linear-gradient(90deg, #818cf8, #a5b4fc); color: #3730a3; }
+        .toast i { font-size: 1.25rem; }
+        /* Risk Gauge */
+        .risk-gauge-svg { width: 120px; height: 120px; display: block; margin: 0 auto; }
+        .risk-gauge-bg { stroke: #e5e7eb; stroke-width: 12; }
+        .risk-gauge-bar { stroke-width: 12; stroke-linecap: round; transition: stroke-dasharray 1s cubic-bezier(.4,2,.6,1); }
+        .risk-gauge-label { font-size: 2rem; font-weight: bold; text-anchor: middle; dominant-baseline: middle; fill: #374151; }
+        .risk-gauge-safe { stroke: #22c55e; }
+        .risk-gauge-suspicious { stroke: #facc15; }
+        .risk-gauge-danger { stroke: #ef4444; }
+        /* Confetti */
+        .confetti { position: absolute; width: 12px; height: 12px; border-radius: 50%; opacity: 0.8; animation: confetti-fall 1.2s linear forwards; }
+        @keyframes confetti-fall { 0% { transform: translateY(-40px) scale(1.2); } 100% { transform: translateY(120px) scale(0.8); opacity: 0; } }
+        /* Typing indicator dots */
+        .typing-indicator-dots { display: flex; gap: 0.25rem; align-items: center; height: 1.5rem; }
+        .typing-indicator-dots span { display: block; width: 8px; height: 8px; border-radius: 50%; background: #a5b4fc; animation: typing-dot-bounce 1s infinite alternate; }
+        .typing-indicator-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing-dot-bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
+        /* Ripple effect for buttons */
+        .ripple { position: relative; overflow: hidden; }
+        .ripple:after { content: ""; display: block; position: absolute; border-radius: 50%; pointer-events: none; width: 100px; height: 100px; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgba(99,102,241,0.18); animation: ripple-effect 0.5s linear; }
+        @keyframes ripple-effect { to { transform: translate(-50%, -50%) scale(2.5); opacity: 0; } }
+        /* Mobile menu spring animation */
+        .mobile-menu { transition: left 0.4s cubic-bezier(.68,-0.55,.27,1.55); }
+        .mobile-menu.active { left: 0 !important; }
+        /* Swipe navigation (mobile) */
+        @media (max-width: 768px) { .page { touch-action: pan-y; } }
+        #helpModal .dark\:text-gray-200 { color: #f3f4f6 !important; }
+        #helpModal .dark\:text-gray-900, #helpModal .dark\:text-gray-800, #helpModal .dark\:text-gray-700 { color: #f9fafb !important; }
+        #helpModal .dark\:text-indigo-600 { color: #a5b4fc !important; }
+        #helpModal .dark\:text-2xl, #helpModal h2 { color: #f9fafb !important; }
+        #helpModal ul li { color: #e5e7eb !important; }
+        #helpModal a { color: #a5b4fc !important; }
     </style>
 </head>
 <body class="transition-all duration-300" data-mode="light">
+    <!-- Skip to Content for Accessibility -->
+    <a href="#mainContent" class="skip-to-content bg-indigo-600 text-white p-2 absolute left-2 top-2 z-50 rounded focus:outline-none focus:ring-4 focus:ring-indigo-300 animate__animated animate__fadeInDown">Skip to Content</a>
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed top-6 right-6 z-50 space-y-2" aria-live="polite"></div>
+    <!-- Floating Help Button -->
+    <button id="helpBtn" aria-label="Help" class="fixed bottom-8 right-8 z-40 bg-indigo-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 animate__animated animate__bounceIn">
+        <i class="fas fa-question text-2xl"></i>
+    </button>
+    <!-- Help Modal -->
+    <div id="helpModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-900 rounded-xl p-8 max-w-lg w-full shadow-xl animate__animated animate__zoomIn relative">
+            <button onclick="closeHelpModal()" class="absolute top-3 right-3 text-gray-400 hover:text-indigo-600 focus:outline-none"><i class="fas fa-times"></i></button>
+            <h2 class="text-2xl font-bold mb-4">Need Help?</h2>
+            <ul class="list-disc pl-6 text-gray-700 dark:text-gray-200 space-y-2">
+                <li>Paste a URL or email to analyze for phishing threats.</li>
+                <li>Use the chat for quick security questions.</li>
+                <li>Switch color themes from the palette button below.</li>
+                <li>Report phishing or get more tips at <a href="#" class="text-indigo-600 underline">our FAQ</a>.</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Theme Customizer -->
+    <div class="fixed bottom-8 left-8 z-40 flex flex-col items-center space-y-2">
+        <button id="themeBtn" aria-label="Change Theme" class="bg-white dark:bg-gray-800 border border-indigo-200 dark:border-gray-700 rounded-full w-12 h-12 flex items-center justify-center shadow hover:bg-indigo-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+            <i class="fas fa-palette text-indigo-600 dark:text-indigo-300"></i>
+        </button>
+        <div id="themePalette" class="hidden flex-col space-y-2 mt-2 bg-white dark:bg-gray-800 p-3 rounded-xl shadow-lg animate__animated animate__fadeIn">
+            <button class="theme-swatch bg-gradient-to-r from-indigo-500 to-purple-500 w-8 h-8 rounded-full border-2 border-indigo-300" data-theme="indigo"></button>
+            <button class="theme-swatch bg-gradient-to-r from-green-400 to-blue-500 w-8 h-8 rounded-full border-2 border-green-300" data-theme="green"></button>
+            <button class="theme-swatch bg-gradient-to-r from-pink-500 to-yellow-500 w-8 h-8 rounded-full border-2 border-pink-300" data-theme="pink"></button>
+        </div>
+    </div>
+    <!-- Main Content Wrapper for Skip Link -->
+    <div id="mainContent" tabindex="-1">
+    <!-- Splash Loader -->
+    <div id="splashLoader">
+        <div class="loader-logo animate__animated animate__fadeInDown">
+            <i class="fas fa-shield-alt animate__animated animate__pulse animate__infinite"></i>
+            <span>PhishGuard Pro</span>
+        </div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 shadow-md bg-white dark:bg-gray-800" data-bg="light">
+    <nav class="fixed w-full z-50 transition-all duration-300 shadow-md bg-white dark:bg-gray-800" data-bg="light" aria-label="Main Navigation">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-3">
                 <div class="flex items-center space-x-2">
@@ -1507,7 +1661,7 @@
                 </div>
                 
                 <div class="card p-8 animate__animated animate__fadeInUp animate__delay-1s" data-bg="light">
-                    <form id="urlForm" class="space-y-6">
+                    <form id="urlForm" class="space-y-6" aria-label="URL Analysis Form">
                         <div>
                             <label class="block text-sm font-medium mb-2">
                                 <i class="fas fa-link mr-2 animated-icon"></i>Enter URL to Analyze
@@ -1730,7 +1884,7 @@
                 </div>
                 
                 <div class="card p-8 animate__animated animate__fadeInUp animate__delay-1s" data-bg="light">
-                    <form id="emailForm" class="space-y-6">
+                    <form id="emailForm" class="space-y-6" aria-label="Email Analysis Form">
                         <div>
                             <label class="block text-sm font-medium mb-2">
                                 <i class="fas fa-envelope mr-2 animated-icon"></i>Email Content
@@ -2825,13 +2979,13 @@
             
             if (classification === 'Dangerous') {
                 classificationEl.classList.add('bg-red-500');
-                classificationEl.innerHTML = `<img src="https://img.icons8.com/fluency/48/high-importance.png" alt="dangerous" class="w-8 h-8"> <span>Dangerous</span>`;
+                classificationEl.innerHTML = `<img src="https://img.icons8.com/fluency/48/high-importance.png" alt="dangerous" class="w-8 h-8 risk-animated"> <span>Dangerous</span>`;
             } else if (classification === 'Suspicious') {
                 classificationEl.classList.add('bg-yellow-400');
-                classificationEl.innerHTML = `<img src="https://img.icons8.com/fluency/48/spam.png" alt="suspicious" class="w-8 h-8" style="filter: hue-rotate(60deg) brightness(1.2);"> <span>Suspicious</span>`;
+                classificationEl.innerHTML = `<img src="https://img.icons8.com/fluency/48/spam.png" alt="suspicious" class="w-8 h-8 risk-animated" style="filter: hue-rotate(60deg) brightness(1.2);"> <span>Suspicious</span>`;
             } else {
                 classificationEl.classList.add('bg-green-500');
-                classificationEl.innerHTML = `<img src="https://img.icons8.com/color/48/checked-2--v1.png" alt="safe" class="w-8 h-8"> <span>Safe</span>`;
+                classificationEl.innerHTML = `<img src="https://img.icons8.com/color/48/checked-2--v1.png" alt="safe" class="w-8 h-8 risk-animated"> <span>Safe</span>`;
             }
         }
 
@@ -2962,6 +3116,147 @@
         document.querySelectorAll('.card:not(.animate__animated)').forEach(card => {
             observer.observe(card);
         });
+
+        // Loader fade out
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('splashLoader').classList.add('fade-out');
+            }, 900);
+        });
+
+        // Add ARIA roles to nav links for accessibility
+        document.querySelectorAll('.nav-link, .mobile-nav-item').forEach(function(el) {
+            el.setAttribute('role', 'button');
+            el.setAttribute('tabindex', '0');
+        });
+
+        // Add section dividers after main headers
+        document.querySelectorAll('h1').forEach(function(h1) {
+            const divider = document.createElement('div');
+            divider.className = 'section-divider';
+            h1.parentNode.insertBefore(divider, h1.nextSibling);
+        });
+
+        // Toast Notification System
+        function showToast(type, message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type} animate__animated animate__fadeInRight`;
+            toast.innerHTML = `<i class="fas ${type==='success'?'fa-check-circle':type==='error'?'fa-exclamation-circle':'fa-info-circle'}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.add('animate__fadeOutRight'); setTimeout(()=>toast.remove(), 800); }, 3200);
+        }
+        // Risk Gauge (Circular)
+        function renderRiskGauge(score, classification) {
+            const container = document.getElementById('riskGaugeContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            const colorClass = classification==='Dangerous'?'risk-gauge-danger':classification==='Suspicious'?'risk-gauge-suspicious':'risk-gauge-safe';
+            const circle = 2 * Math.PI * 48;
+            const percent = Math.max(0, Math.min(100, score));
+            const dash = circle * percent / 100;
+            const svg = `<svg class="risk-gauge-svg" viewBox="0 0 120 120"><circle class="risk-gauge-bg" cx="60" cy="60" r="48" fill="none"/><circle class="risk-gauge-bar ${colorClass}" cx="60" cy="60" r="48" fill="none" stroke-dasharray="${dash},${circle-dash}"/><text x="60" y="60" class="risk-gauge-label">${score}</text></svg>`;
+            container.innerHTML = svg;
+        }
+        // Confetti Animation for Safe
+        function showConfetti() {
+            const confetti = document.getElementById('riskConfetti');
+            confetti.innerHTML = '';
+            confetti.style.display = 'block';
+            for(let i=0;i<24;i++) {
+                const dot = document.createElement('div');
+                dot.className = 'confetti';
+                dot.style.left = `${Math.random()*100}%`;
+                dot.style.background = `hsl(${Math.random()*360},80%,60%)`;
+                dot.style.top = `${Math.random()*40+10}px`;
+                confetti.appendChild(dot);
+            }
+            setTimeout(()=>{ confetti.style.display = 'none'; }, 1400);
+        }
+        // Animated Warning for Dangerous
+        function showWarningPulse() {
+            const container = document.getElementById('riskGaugeContainer');
+            if (!container) return;
+            const icon = document.createElement('div');
+            icon.innerHTML = '<i class="fas fa-exclamation-triangle text-red-500 animate__animated animate__heartBeat animate__infinite" style="font-size:2.5rem;"></i>';
+            icon.style.position = 'absolute';
+            icon.style.top = '10px';
+            icon.style.right = '10px';
+            container.appendChild(icon);
+            setTimeout(()=>icon.remove(), 1800);
+        }
+        // Chat Avatars and Typing Indicator
+        // (Update addMessage and showTypingIndicator to use avatars and .typing-indicator-dots)
+        // ...
+        // ARIA live regions for results and chat
+        // <div aria-live="polite" id="chatMessages" ...>
+        // <div aria-live="polite" id="urlResult" ...>
+        // ...
+        // Theme Customizer
+        const themes = {
+            indigo: {
+                '--primary-gradient': 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
+                '--primary-color': '#4f46e5',
+                '--secondary-color': '#7c3aed',
+            },
+            green: {
+                '--primary-gradient': 'linear-gradient(135deg, #22d3ee 0%, #4ade80 100%)',
+                '--primary-color': '#22d3ee',
+                '--secondary-color': '#4ade80',
+            },
+            pink: {
+                '--primary-gradient': 'linear-gradient(135deg, #ec4899 0%, #f59e42 100%)',
+                '--primary-color': '#ec4899',
+                '--secondary-color': '#f59e42',
+            }
+        };
+        function applyTheme(theme) {
+            const root = document.documentElement;
+            Object.entries(themes[theme]).forEach(([k,v])=>root.style.setProperty(k,v));
+            localStorage.setItem('theme', theme);
+        }
+        document.getElementById('themeBtn').onclick = () => {
+            document.getElementById('themePalette').classList.toggle('hidden');
+        };
+        document.querySelectorAll('.theme-swatch').forEach(btn => {
+            btn.onclick = () => { applyTheme(btn.dataset.theme); document.getElementById('themePalette').classList.add('hidden'); showToast('info', `Theme changed!`); };
+        });
+        window.addEventListener('DOMContentLoaded', ()=>{
+            const saved = localStorage.getItem('theme');
+            if(saved && themes[saved]) applyTheme(saved);
+        });
+        // Floating Help Button
+        function closeHelpModal() { document.getElementById('helpModal').classList.add('hidden'); }
+        document.getElementById('helpBtn').onclick = () => { document.getElementById('helpModal').classList.remove('hidden'); };
+        document.getElementById('helpModal').onclick = e => { if(e.target===e.currentTarget) closeHelpModal(); };
+        // Micro-interactions: icon animation, ripple effect
+        function addRipple(e) {
+            const btn = e.currentTarget;
+            btn.classList.add('ripple');
+            setTimeout(()=>btn.classList.remove('ripple'), 500);
+        }
+        document.querySelectorAll('button, .btn-primary').forEach(btn => {
+            btn.addEventListener('click', addRipple);
+            btn.addEventListener('mouseenter', ()=>btn.querySelector('i')?.classList.add('animate__tada'));
+            btn.addEventListener('mouseleave', ()=>btn.querySelector('i')?.classList.remove('animate__tada'));
+        });
+        // Swipe navigation (mobile)
+        let touchStartX = null;
+        document.querySelectorAll('.page').forEach(page => {
+            page.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+            page.addEventListener('touchend', e => {
+                if(touchStartX===null) return;
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                if(Math.abs(dx)>60) {
+                    const pages = Array.from(document.querySelectorAll('.page'));
+                    const idx = pages.indexOf(page);
+                    let nextIdx = dx<0 ? idx+1 : idx-1;
+                    if(nextIdx>=0 && nextIdx<pages.length) showPage(pages[nextIdx].id);
+                }
+                touchStartX = null;
+            });
+        });
+        // ... existing code ...
     </script>
 </body>
 </html> 

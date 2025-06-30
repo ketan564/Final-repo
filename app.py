@@ -503,29 +503,6 @@ async def get_detailed_knowledge(ctx: RunContext, category: str) -> List[str]:
     return ["Information not found for the specified category"]
 
 @advanced_agent.tool
-async def check_domain_reputation(ctx: RunContext, domain: str) -> Dict:
-    """
-    Simulate checking domain reputation from security databases.
-    In a production environment, this would connect to actual security APIs.
-    
-    Args:
-        domain: The domain name to check (e.g., example.com)
-    """
-    # This is a simulation - in production, you would connect to actual security services
-    import random
-    
-    # Simulate domain reputation check
-    reputation_score = random.randint(0, 100)
-    
-    return {
-        "domain": domain,
-        "reputation_score": reputation_score,
-        "last_seen_malicious": "Never" if reputation_score < 30 else f"{random.randint(1, 60)} days ago",
-        "known_for": "Legitimate business" if reputation_score < 30 else "Potential phishing",
-        "registration_date": f"20{random.randint(10, 23)}-{random.randint(1, 12)}-{random.randint(1, 28)}"
-    }
-
-@advanced_agent.tool
 async def compare_with_known_patterns(ctx: RunContext, content_type: str, content: str) -> Dict:
     """
     Compare the provided content with known phishing patterns from the knowledge base.
@@ -956,17 +933,9 @@ def advanced_analysis():
             # Get relevant knowledge base information based on content type
             if content_type == 'url':
                 kb_category = 'url_analysis_tips'
-                
-                # Check domain reputation if it's a URL
-                if domain:
-                    try:
-                        domain_info = check_domain_reputation.run_sync(None, domain)
-                        additional_context['domain_info'] = domain_info
-                    except Exception as e:
-                        print(f"Error checking domain reputation: {str(e)}")
             else:
                 kb_category = 'email_analysis_tips'
-                
+            
             # Compare with known phishing patterns
             try:
                 pattern_match = compare_with_known_patterns.run_sync(None, content_type, content)
